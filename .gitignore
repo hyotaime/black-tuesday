@@ -1,6 +1,7 @@
 *.txt
 .idea/
 crawling_test.py
+gpt_test.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

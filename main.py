@@ -34,7 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("start")
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="It's telegram bot.\nUse /help to check commands."
+        text="I'm black-T.U.E.S.D.A.Y\nTelegram-bot Ultimately Essential Service Definitively Assist You.\nUse /help to check commands."
     )
 
 # help 명령어에 대한 응답
@@ -155,12 +155,12 @@ async def process_now_value(update: Update, context: ContextTypes.DEFAULT_TYPE, 
 
 async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("find")
-    # 입력 메시지에서 '/test'를 제외한 텍스트 추출
+    # 입력 메시지에서 '/find'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/find', '').strip()
     if search_value == "":
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Please enter your search value\ne.g.)\t/find Apple"
+            text="Please enter your search value.\ne.g.)\t/find Apple"
         )
     else:
         await process_search_value(update, context, search_value)
@@ -168,24 +168,24 @@ async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("f")
-    # 입력 메시지에서 '/test'를 제외한 텍스트 추출
+    # 입력 메시지에서 '/f'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/f', '').strip()
     if search_value == "":
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Please enter your search value\ne.g.)\t/f Apple"
+            text="Please enter your search value.\ne.g.)\t/f Apple"
         )
     else:
         await process_search_value(update, context, search_value)
 
 async def now(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("now")
-    # 입력 메시지에서 '/test'를 제외한 텍스트 추출
+    # 입력 메시지에서 '/now'를 제외한 텍스트 추출
     ticker = update.message.text.replace('/now', '').strip()
     if ticker == "":
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Please enter the ticker\ne.g.)\t/now AAPL"
+            text="Please enter the ticker.\ne.g.)\t/now AAPL"
         )
     else:
         await process_now_value(update, context, ticker)
@@ -193,15 +193,61 @@ async def now(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def n(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("n")
-    # 입력 메시지에서 '/test'를 제외한 텍스트 추출
+    # 입력 메시지에서 '/n'를 제외한 텍스트 추출
     ticker = update.message.text.replace('/n', '').strip()
     if ticker == "":
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Please enter the ticker\ne.g.)\t/n AAPL"
+            text="Please enter the ticker.\ne.g.)\t/n AAPL"
         )
     else:
         await process_now_value(update, context, ticker)
+
+async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info("alarm")
+    # 입력 메시지에서 '/alarm'를 제외한 텍스트 추출
+    time = update.message.text.replace('/alarm', '').strip()
+    if time == "":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Please enter your alarm time.\ne.g.)\t/alarm 9"
+        )
+    else:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=time+"\nalarm test"
+        )
+
+
+async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info("search")
+    # 입력 메시지에서 '/search'를 제외한 텍스트 추출
+    search_value = update.message.text.replace('/search', '').strip()
+    if search_value == "":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Please enter your search value.\ne.g.)\t/search banana"
+        )
+    else:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=search_value+"\nsearch test"
+        )
+
+async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    logger.info("gpt")
+    # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
+    ask_value = update.message.text.replace('/gpt', '').strip()
+    if ask_value == "":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Please enter your qusetion.\ne.g.)\t/gpt Are you a human?"
+        )
+    else:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=ask_value+"\ngpt test"
+        )
 # 명령어 끝
 
 # 메인 함수
@@ -223,6 +269,16 @@ if __name__ == '__main__':
     application.add_handler(now_handler)
     n_handler = CommandHandler('n', n)
     application.add_handler(n_handler)
+
+    alarm_handler = CommandHandler('alarm', alarm)
+    application.add_handler(alarm_handler)
+
+    search_handler = CommandHandler('search', search)
+    application.add_handler(search_handler)
+
+    gpt_handler = CommandHandler('gpt', gpt)
+    application.add_handler(gpt_handler)
+
 
 
     application.run_polling()
