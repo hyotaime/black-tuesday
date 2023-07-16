@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-def searchCrawling(search_value):
+def findCrawling(find_value):
     url = "https://investing.com/search/?q="
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
-    response = requests.get(url + search_value, headers=headers)
+    response = requests.get(url + find_value, headers=headers)
     soup = BeautifulSoup(response.content, "html.parser")
 
     second_elements = soup.select('.second')
@@ -70,3 +70,36 @@ def nowCrawling(code):
     price_change = values[0]
     price_change_percent = values[1]
     return name, market, price_now, price_change, price_change_percent
+
+
+def searchCrawling(search_value):
+    # Set the headers to mimic a web browser
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    }
+
+    # Send a GET request to the Google search URL with the query parameter
+    response = requests.get(f"https://www.google.com/search?q={search_value}", headers=headers)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Extract the HTML content from the response
+        html_content = response.text
+
+        # Parse the HTML content using BeautifulSoup
+        soup = BeautifulSoup(html_content, "html.parser")
+
+        # Find all the search result elements
+        search_results = soup.find_all("div", class_="yuRUbf")
+
+        # Extract the search result titles and URLs
+        message = ""
+        for result in search_results:
+            title = result.find("h3").text
+            url = result.find("a")["href"]
+            message += f"{title}\n{url}\n\n"
+
+        return message
+    else:
+        return None
+

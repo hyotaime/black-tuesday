@@ -16,7 +16,7 @@ async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  "e.g.)\t/find Apple"
         )
     else:
-        await process_search_value(update, context, search_value)
+        await process_find_value(update, context, search_value)
 
 
 async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -30,11 +30,11 @@ async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  "e.g.)\t/f Apple"
         )
     else:
-        await process_search_value(update, context, search_value)
+        await process_find_value(update, context, search_value)
 
 
-async def process_search_value(update: Update, context: ContextTypes.DEFAULT_TYPE, search_value: str):
-    code, name, type_market = crawling.searchCrawling(search_value)
+async def process_find_value(update: Update, context: ContextTypes.DEFAULT_TYPE, find_value: str):
+    code, name, type_market = crawling.findCrawling(find_value)
     type = ""
     market = ""
 
