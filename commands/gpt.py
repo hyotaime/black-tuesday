@@ -2,7 +2,11 @@ from telegram import Update
 from telegram.ext import ContextTypes
 
 from log import logger
+import openai
 
+with open("./gptapi_key.txt") as f:
+    lines = f.readlines()
+    openai.api_key = lines[0].strip()
 
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("gpt")
