@@ -6,9 +6,10 @@ import crawling
 
 
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info("search")
     # 입력 메시지에서 '/search'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/search', '').strip()
+    logger.info("search : " + "\"" + search_value + "\"")
+    search_value = search_value.replace(' ', '+').strip()
     if search_value == "":
         await context.bot.send_message(
             chat_id=update.effective_chat.id,

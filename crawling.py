@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+from logger import logger
+
 def findCrawling(find_value):
     url = "https://investing.com/search/?q="
     headers = {
@@ -77,9 +79,9 @@ def searchCrawling(search_value):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
-
+    url = "https://www.google.com/search?q=" + search_value
     # Send a GET request to the Google search URL with the query parameter
-    response = requests.get(f"https://www.google.com/search?q={search_value}", headers=headers)
+    response = requests.get(url, headers=headers)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
@@ -96,8 +98,8 @@ def searchCrawling(search_value):
         message = ""
         for result in search_results:
             title = result.find("h3").text
-            url = result.find("a")["href"]
-            message += f"{title}\n{url}\n\n"
+            result_url = result.find("a")["href"]
+            message += f"{title}\n{result_url}\n\n"
 
         return message
     else:
