@@ -4,11 +4,11 @@ from telegram.ext import CommandHandler, ApplicationBuilder
 from commands import start, help, find, now, gpt, alarm, search
 
 # 토큰 읽기
-with open("./token.txt") as f:
+with open("./hiddenValues/token.txt") as f:
     lines = f.readlines()
     token = lines[0].strip()
 
-with open("./chat_id.txt") as f:
+with open("./hiddenValues/chat_id.txt") as f:
     lines = f.readlines()
     chat_id = lines[0].strip()
 
