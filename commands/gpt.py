@@ -25,7 +25,6 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif ask_value == "clear":
         logger.info("gpt clear")
         messages.clear()
-        print(messages)
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="Chat history with ChatGPT is cleared."
@@ -50,4 +49,3 @@ async def process_gpt(update: Update, context: ContextTypes.DEFAULT_TYPE, ask_va
         text=f'ChatGPT: {chat_response}'
     )
     messages.append({"role": "assistant", "content": chat_response})
-    print(messages)
