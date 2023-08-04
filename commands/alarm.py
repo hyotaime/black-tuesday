@@ -5,6 +5,8 @@ from log import logger
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+scheduler = AsyncIOScheduler()
+
 
 async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info("alarm")
@@ -19,7 +21,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"알림이 {alarm_time}에 예약되었습니다."
+            text=f"알림이 {alarm_time}에 설정되었습니다."
         )
         process_alarm(update, context, alarm_time)
 
@@ -34,5 +36,5 @@ async def print_notification(update: Update, context: ContextTypes.DEFAULT_TYPE)
 def process_alarm(update: Update, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
     target_hour, target_minute = map(int, alarm_time.split(':'))
 
-    AsyncIOScheduler().add_job(print_notification, 'cron', hour=target_hour, minute=target_minute, args=(update, context))
-    AsyncIOScheduler().start()
+    scheduler.add_job(print_notification, 'cron', hour=target_hour, minute=target_minute, args=(update, context))
+    scheduler.start()
