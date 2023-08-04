@@ -12,7 +12,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
              "/help - Show command list\n"
              "/find - Search stock information at investing.com\n"
              "/now - Show real time price of the stock\n"
-             "/alarm - Set NASDAQ, KOSPI, NIKKEI price alarm\n"
+             "/alarm - Set an alarm\n"
              "/search - Search anything you want at google.com\n"
              "/gpt - Ask anything to chatGPT"
     )
