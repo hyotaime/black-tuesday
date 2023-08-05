@@ -38,6 +38,8 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                      "Please enter your alarm time.\n"
                      "e.g.)\t/alarm 9:30"
             )
+    elif alarm_time == "all":
+        await remove_all_alarms(update, context)
     elif re.match(time_pattern, alarm_time):
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
@@ -121,3 +123,14 @@ async def remove_alarm(update: Update, context: ContextTypes.DEFAULT_TYPE, alarm
                 chat_id=update.effective_chat.id,
                 text="올바른 번호 또는 ID를 입력하세요."
             )
+
+
+async def remove_all_alarms(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    jobs = scheduler.get_jobs()
+    for job in jobs:
+        job.remove()
+
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="모든 알람이 삭제되었습니다."
+    )
