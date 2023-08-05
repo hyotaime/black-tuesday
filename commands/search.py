@@ -21,7 +21,7 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_search_value(update: Update, context: ContextTypes.DEFAULT_TYPE, search_value: str):
-    message = crawling.searchCrawling(search_value)
+    message = crawling.search_crawling(search_value)
 
     if not message:
         await context.bot.send_message(

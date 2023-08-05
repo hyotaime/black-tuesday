@@ -34,7 +34,7 @@ async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_find_value(update: Update, context: ContextTypes.DEFAULT_TYPE, find_value: str):
-    code, name, type_market = crawling.findCrawling(find_value)
+    code, name, type_market = crawling.find_crawling(find_value)
     type = ""
     market = ""
 

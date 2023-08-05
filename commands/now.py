@@ -32,7 +32,7 @@ async def n(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_now_value(update: Update, context: ContextTypes.DEFAULT_TYPE, ticker: str):
-    name, market, price_now, price_change, price_change_percent = crawling.nowCrawling(ticker)
+    name, market, price_now, price_change, price_change_percent = crawling.now_crawling(ticker)
 
     if not name:
         await context.bot.send_message(

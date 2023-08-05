@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 
 from logger import logger
 
-def findCrawling(find_value):
+
+def find_crawling(find_value):
     url = "https://investing.com/search/?q="
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
@@ -25,7 +26,7 @@ def findCrawling(find_value):
     return second_values, third_values, fourth_values
 
 
-def nowCrawling(code):
+def now_crawling(code):
     url = "https://investing.com/search/?q=" + code + "&tab=quotes"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
@@ -74,7 +75,7 @@ def nowCrawling(code):
     return name, market, price_now, price_change, price_change_percent
 
 
-def searchCrawling(search_value):
+def search_crawling(search_value):
     # Set the headers to mimic a web browser
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
@@ -104,4 +105,3 @@ def searchCrawling(search_value):
         return message
     else:
         return None
-
