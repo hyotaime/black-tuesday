@@ -80,10 +80,13 @@ async def remove_alarm(update: Update, context: ContextTypes.DEFAULT_TYPE, alarm
             if 0 <= index < len(jobs):
                 job = jobs[index]
                 job_id = job.id
+                alarm_time = job.next_run_time.time()
                 job.remove()
                 await context.bot.send_message(
                     chat_id=update.effective_chat.id,
-                    text=f"알람(ID: {job_id})이 삭제되었습니다."
+                    text=f"{alarm_identifier}번째 알람이 삭제되었습니다.\n"
+                         f"{alarm_time}\n"
+                         f"(ID: {job_id})"
                 )
             else:
                 await context.bot.send_message(
@@ -101,10 +104,12 @@ async def remove_alarm(update: Update, context: ContextTypes.DEFAULT_TYPE, alarm
             job_id = alarm_identifier
             job = scheduler.get_job(job_id)
             if job:
+                alarm_time = job.next_run_time.time()
                 job.remove()
                 await context.bot.send_message(
                     chat_id=update.effective_chat.id,
-                    text=f"알람(ID: {job_id})이 삭제되었습니다."
+                    text=f"{alarm_time} 알람이 삭제되었습니다.\n"
+                         f"(ID: {job_id})"
                 )
             else:
                 await context.bot.send_message(
