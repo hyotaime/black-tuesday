@@ -41,11 +41,18 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif alarm_time == "all":
         await remove_all_alarms(update, context)
     elif re.match(time_pattern, alarm_time):
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=f"알림이 {alarm_time}에 설정되었습니다."
-        )
-        process_alarm(update, context, alarm_time)
+        try:
+            process_alarm(update, context, alarm_time)
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=f"알림이 {alarm_time}에 설정되었습니다."
+            )
+        except ValueError:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="올바른 시간을 입력하세요.\n"
+                     "00:00 ~ 23:59"
+            )
 
         if not scheduler_started:
             scheduler.start()
