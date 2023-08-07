@@ -10,7 +10,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     logger.info(f"UserID: {chat_id} - gptkeyset")
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
-    key_value = update.message.text.replace('/setgptkey', '').strip()
+    key_value = update.message.text.replace('/gptkeyset', '').strip()
     if key_value == "":
         await context.bot.send_message(
             chat_id=chat_id,
