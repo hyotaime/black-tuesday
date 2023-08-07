@@ -28,7 +28,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if matching_jobs:
             alarm_list = "\n".join([f"{i + 1}. {job.next_run_time.time()}\n"
                                     f"ID: {job.id}\n"
-                                    f"{job.args[0]}"
+                                    f""
                                     for i, job in enumerate(matching_jobs)])
             await context.bot.send_message(
                 chat_id=chat_id,
