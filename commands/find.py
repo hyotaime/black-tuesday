@@ -6,34 +6,36 @@ import crawling
 
 
 async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info("find")
+    chat_id = update.effective_chat.id
+    logger.info(f"UserID: {chat_id} - find")
     # 입력 메시지에서 '/find'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/find', '').strip()
     if search_value == "":
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
             text="Please enter your search value.\n"
                  "e.g.)\t/find Apple"
         )
     else:
-        await process_find_value(update, context, search_value)
+        await process_find_value(chat_id, context, search_value)
 
 
 async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info("f")
+    chat_id = update.effective_chat.id
+    logger.info(f"UserID: {chat_id} - f")
     # 입력 메시지에서 '/f'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/f', '').strip()
     if search_value == "":
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
             text="Please enter your search value.\n"
                  "e.g.)\t/f Apple"
         )
     else:
-        await process_find_value(update, context, search_value)
+        await process_find_value(chat_id, context, search_value)
 
 
-async def process_find_value(update: Update, context: ContextTypes.DEFAULT_TYPE, find_value: str):
+async def process_find_value(chat_id: int, context: ContextTypes.DEFAULT_TYPE, find_value: str):
     code, name, type_market = crawling.find_crawling(find_value)
     type = ""
     market = ""
@@ -47,11 +49,11 @@ async def process_find_value(update: Update, context: ContextTypes.DEFAULT_TYPE,
 
     if not code:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
             text="Can't find any result."
         )
     else:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
             text=f"{name[0]} ({code[0]})\n{market} - {type}"
         )

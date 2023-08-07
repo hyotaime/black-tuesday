@@ -5,9 +5,10 @@ from log import logger
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info("help")
+    chat_id = update.effective_chat.id
+    logger.info(f"UserID{chat_id} - help")
     await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+        chat_id=chat_id,
         text="Command List\n"
              "/help - Show command list\n"
              "/find - Search stock information at investing.com\n"

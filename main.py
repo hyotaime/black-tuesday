@@ -1,10 +1,10 @@
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 
-from commands import start, help, find, now, gpt, alarm, search
+from commands import start, initialsetting, help, find, now, gpt, alarm, search
 
 # 토큰 읽기
-with open("./hiddenValues/token.txt") as f:
+with open("./hiddenValues/token_test.txt") as f:
     lines = f.readlines()
     token = lines[0].strip()
 
@@ -42,5 +42,8 @@ if __name__ == '__main__':
 
     gpt_handler = CommandHandler('gpt', gpt.gpt)
     application.add_handler(gpt_handler)
+
+    gptkeyset_handler = CommandHandler('gptkeyset', initialsetting.gpt_key_set)
+    application.add_handler(gptkeyset_handler)
 
     application.run_polling()

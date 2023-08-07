@@ -1,51 +1,65 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
+from commands import initialsetting as iniset
 from log import logger
 import openai
 
-with open("./hiddenValues/gptapi_key.txt") as f:
-    lines = f.readlines()
-    openai.api_key = lines[0].strip()
 
-messages = []
+_gpt_chat = {}
+openai.api_key = None
+# with open("./hiddenValues/gptapi_key.txt") as f:
+#     lines = f.readlines()
+#     openai.api_key = lines[0].strip()
 
 
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logger.info("gpt")
+    chat_id = update.effective_chat.id
+    logger.info(f"UserID: {chat_id} - gpt")
+    if chat_id in iniset.get_api_key_all() and iniset.get_api_key(chat_id) is not None:
+        openai.api_key = iniset.get_api_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     ask_value = update.message.text.replace('/gpt', '').strip()
-    if ask_value == "":
+    if openai.api_key is None:
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
+            text="Please set your Openai API key.\n"
+                 "e.g.) /setgptkey 1q2w3e4r5t"
+        )
+    elif ask_value == "":
+        await context.bot.send_message(
+            chat_id=chat_id,
             text="Please enter your qusetion.\n"
                  "e.g.) \"/gpt Are you human?\"\n"
                  "Use \"/gpt clear\" to clear the chat history."
         )
     elif ask_value == "clear":
-        logger.info("gpt clear")
-        messages.clear()
+        logger.info(f"UserID: {chat_id} - gpt clear")
+        _gpt_chat[chat_id].clear()
         await context.bot.send_message(
-            chat_id=update.effective_chat.id,
+            chat_id=chat_id,
             text="Chat history with ChatGPT is cleared."
         )
     else:
-        await process_gpt(update, context, ask_value)
+        await process_gpt(chat_id, context, ask_value)
 
 
-async def process_gpt(update: Update, context: ContextTypes.DEFAULT_TYPE, ask_value: str):
+async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_value: str):
     content = ask_value
 
-    messages.append({"role": "user", "content": content})
+    if chat_id not in _gpt_chat:
+        _gpt_chat[chat_id] = []  # 새로운 chat_id에 해당하는 딕셔너리 생성
+
+    _gpt_chat[chat_id].append({"role": "user", "content": content})
 
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=messages
+        messages=_gpt_chat[chat_id]
     )
 
     chat_response = completion.choices[0].message.content.strip()
     await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+        chat_id=chat_id,
         text=f'ChatGPT: {chat_response}'
     )
-    messages.append({"role": "assistant", "content": chat_response})
+    _gpt_chat[chat_id].append({"role": "assistant", "content": chat_response})
