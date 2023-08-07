@@ -8,10 +8,6 @@ with open("./hiddenValues/token_test.txt") as f:
     lines = f.readlines()
     token = lines[0].strip()
 
-with open("./hiddenValues/chat_id.txt") as f:
-    lines = f.readlines()
-    chat_id = lines[0].strip()
-
 bot = tel.Bot(token=token)
 
 # 메인 함수
