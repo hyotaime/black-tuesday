@@ -18,7 +18,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  "e.g.) /gptkeyset 1q2w3e4r5t"
         )
     else:
-        logger.info(f"User: {chat_id} - gptkeyset")
+        logger.info(f"UserID: {chat_id} - gptkeyset")
         set_api_key(chat_id, key_value)
         await context.bot.send_message(
             chat_id=chat_id,
