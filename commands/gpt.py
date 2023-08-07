@@ -20,28 +20,34 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
         openai.api_key = iniset.get_api_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     ask_value = update.message.text.replace('/gpt', '').strip()
-    if openai.api_key is None:
+    try:
+        if openai.api_key is None:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Please set your Openai API key.\n"
+                     "e.g.) /gptkeyset 1q2w3e4r5t"
+            )
+        elif ask_value == "":
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Please enter your qusetion.\n"
+                     "e.g.) \"/gpt Are you human?\"\n"
+                     "Use \"/gpt clear\" to clear the chat history."
+            )
+        elif ask_value == "clear":
+            logger.info(f"UserID: {chat_id} - gpt clear")
+            _gpt_chat[chat_id].clear()
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Chat history with ChatGPT is cleared."
+            )
+        else:
+            await process_gpt(chat_id, context, ask_value)
+    except openai.error.OpenAIError as e:
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Please set your Openai API key.\n"
-                 "e.g.) /setgptkey 1q2w3e4r5t"
+            text="An error occurred while using the OpenAI API: " + str(e)
         )
-    elif ask_value == "":
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="Please enter your qusetion.\n"
-                 "e.g.) \"/gpt Are you human?\"\n"
-                 "Use \"/gpt clear\" to clear the chat history."
-        )
-    elif ask_value == "clear":
-        logger.info(f"UserID: {chat_id} - gpt clear")
-        _gpt_chat[chat_id].clear()
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="Chat history with ChatGPT is cleared."
-        )
-    else:
-        await process_gpt(chat_id, context, ask_value)
 
 
 async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_value: str):
