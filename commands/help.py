@@ -6,7 +6,7 @@ from log import logger
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID{chat_id} - help")
+    logger.info(f"UserID: {chat_id} - help")
     await context.bot.send_message(
         chat_id=chat_id,
         text="Command List\n"
