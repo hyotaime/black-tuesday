@@ -1,23 +1,19 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 
-from commands import initialsetting as iniset
+import database
 from log import logger
 import openai
 
 
 _gpt_chat = {}
 openai.api_key = None
-# with open("./hiddenValues/gptapi_key.txt") as f:
-#     lines = f.readlines()
-#     openai.api_key = lines[0].strip()
 
 
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     logger.info(f"UserID: {chat_id} - gpt")
-    if chat_id in iniset.get_api_key_all() and iniset.get_api_key(chat_id) is not None:
-        openai.api_key = iniset.get_api_key(chat_id)
+    openai.api_key = database.get_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     ask_value = update.message.text.replace('/gpt', '').strip()
     try:

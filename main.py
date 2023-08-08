@@ -1,6 +1,7 @@
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 
+import database
 from commands import start, initialsetting, help, find, now, gpt, alarm, search
 
 # 토큰 읽기
@@ -13,6 +14,7 @@ bot = tel.Bot(token=token)
 # 메인 함수
 if __name__ == '__main__':
     application = ApplicationBuilder().token(token).build()
+    database.db_connection_test()
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
