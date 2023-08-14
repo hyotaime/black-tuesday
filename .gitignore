@@ -164,3 +164,4 @@ cython_debug/
 #.idea/
 /database.py
 /telegram-bot-test_key.pem
+/Botpic.jpg
