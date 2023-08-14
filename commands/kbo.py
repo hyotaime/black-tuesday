@@ -21,8 +21,7 @@ async def kbonow(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def process_kbo_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     games = crawling.kbo_now_crawling()
-    # today = datetime.datetime.now().strftime("%-m.%d")
-    today = "8.02"
+    today = datetime.datetime.now().strftime("%-m.%d")
     message = ""
     for game in games:
         if game['date'].startswith(today):
