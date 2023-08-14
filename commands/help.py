@@ -18,5 +18,5 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
              "/find - Search stock information at investing.com\n"
              "/now - Show real time price of the stock\n"
              "/kbo - Show KBO league table\n"
-             "/kbonow - Show today's game schedule\n"
+             "/kbonow - Show today's KBO game schedule\n"
     )
