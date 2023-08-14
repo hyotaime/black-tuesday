@@ -11,9 +11,10 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chat_id=chat_id,
         text="Command List\n"
              "/help - Show command list\n"
-             "/find - Search stock information at investing.com\n"
-             "/now - Show real time price of the stock\n"
              "/alarm - Set an alarm\n"
              "/search - Search anything you want at google.com\n"
-             "/gpt - Ask anything to chatGPT"
+             "/gpt - Ask anything to chatGPT\n"
+             "/gptkeyset - Set your chatGPT API key\n"
+             "/find - Search stock information at investing.com\n"
+             "/now - Show real time price of the stock"
     )
