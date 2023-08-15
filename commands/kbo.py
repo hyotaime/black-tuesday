@@ -38,7 +38,7 @@ async def process_kbo_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
 async def process_kbo(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     team_data_list = crawling.kbo_crawling()
 
-    message = "순위 팀명 경기 승  패  무  게임차 연속\n"
+    message = "순위 팀명  경기   승   패   무  게임차 연속\n"
     for team_data in team_data_list:
         rank = "%-5s" % (team_data['Rank'] + "위")
         name = "%-5s" % team_data['Team Name']
