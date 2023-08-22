@@ -8,7 +8,7 @@ import crawling
 async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     # 입력 메시지에서 '/search'를 제외한 텍스트 추출
-    search_value = update.message.text.replace('/search', '').strip()
+    search_value = update.message.text.replace('/search', '').replace('@black_tuesday_bot', '').strip()
     logger.info(f"UserID: {chat_id} - search : " + "\"" + search_value + "\"")
     search_value = search_value.replace(' ', '+').strip()
     if search_value == "":

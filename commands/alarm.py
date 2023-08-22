@@ -18,7 +18,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"UserID: {chat_id} - alarm")
 
     # 입력 메시지에서 '/alarm'를 제외한 텍스트 추출
-    alarm_time = update.message.text.replace('/alarm', '').strip()
+    alarm_time = update.message.text.replace('/alarm', '').replace('@black_tuesday_bot', '').strip()
     # 정규식을 사용하여 알람 시간 형식이 "9:30"과 같은지 확인
     time_pattern = r"\b\d{1,2}:\d{2}\b"
 

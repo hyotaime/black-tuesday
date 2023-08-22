@@ -15,7 +15,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"UserID: {chat_id} - gpt")
     openai.api_key = database.get_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
-    ask_value = update.message.text.replace('/gpt', '').strip()
+    ask_value = update.message.text.replace('/gpt', '').replace('@black_tuesday_bot', '').strip()
     try:
         if openai.api_key is None:
             await context.bot.send_message(
@@ -50,7 +50,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     logger.info(f"UserID: {chat_id} - gptkeyset")
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
-    key_value = update.message.text.replace('/gptkeyset', '').strip()
+    key_value = update.message.text.replace('/gptkeyset', '').replace('@black_tuesday_bot', '').strip()
     if key_value == "":
         key_value = database.get_key(chat_id)
         await context.bot.send_message(
