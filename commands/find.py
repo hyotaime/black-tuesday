@@ -36,18 +36,9 @@ async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_find_value(chat_id: int, context: ContextTypes.DEFAULT_TYPE, find_value: str):
-    code, name, type_market = crawling.find_crawling(find_value)
-    type = ""
-    market = ""
+    result = crawling.find_crawling(find_value)
 
-    if type_market:
-        # type_market의 첫 번째 값에서 " - "를 기준으로 type과 market 구분
-        split_values = type_market[0].split(" - ")
-        if len(split_values) == 2:
-            type = split_values[0].strip()
-            market = split_values[1].strip()
-
-    if not code:
+    if not result:
         await context.bot.send_message(
             chat_id=chat_id,
             text="Can't find any result."
@@ -55,5 +46,5 @@ async def process_find_value(chat_id: int, context: ContextTypes.DEFAULT_TYPE, f
     else:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"{name[0]} ({code[0]})\n{market} - {type}"
+            text=result
         )

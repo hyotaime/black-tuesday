@@ -3,27 +3,22 @@ from bs4 import BeautifulSoup
 
 
 def find_crawling(find_value):
-    url = "https://finance.yahoo.com/lookup?s="
+    # https://github.com/yashwanth2804/TickerSymbol
+    # Using tickersearch API By Yashwanth2804
+    url = "https://ticker-2e1ica8b9.now.sh//keyword/" + find_value
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
-    response = requests.get(url + find_value, headers=headers)
-    response.raise_for_status()
 
-    soup = BeautifulSoup(response.text, 'lxml')
+    response = requests.get(url, headers=headers)
+    data = response.json()
+    result = ""
+    for item in data:
+        result += (f"{item['name']}\n"
+                   f"Ticker: {item['symbol']}\n"
+                   f"\n")
 
-    second_elements = soup.select('.second')
-    third_elements = soup.select('.third')
-    fourth_elements = soup.select('.fourth')
-
-    # 내부 값이 기호나 공백이 아닌 경우에만 추출하여 리스트에 저장
-    second_values = [element.text.strip() for element in second_elements if
-                     element.text.strip() and not any(c in element.text for c in ('{', '}', '[', ']'))][:3]
-    third_values = [element.text.strip() for element in third_elements if
-                    element.text.strip() and not any(c in element.text for c in ('{', '}', '[', ']'))][:3]
-    fourth_values = [element.text.strip() for element in fourth_elements if
-                     element.text.strip() and not any(c in element.text for c in ('{', '}', '[', ']'))][:3]
-    return second_values, third_values, fourth_values
+    return result
 
 
 def search_crawling(search_value):
