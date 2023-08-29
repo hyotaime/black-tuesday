@@ -27,7 +27,7 @@ async def process_kbo_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
             if game['time'] == "-":
                 message = "프로야구 경기가 없습니다."
             else:
-                message += f"{game['time']} {game['home']} {game['home_score']} : {game['away_score']} {game['away']}\n{game['stadium']} {game['broadcast']}\n\n"
+                message += f"{game['time']} {game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n{game['stadium']} {game['broadcast']}\n\n"
 
     await context.bot.send_message(
         chat_id=chat_id,
