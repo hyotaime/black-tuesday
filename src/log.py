@@ -8,4 +8,3 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 # log 출력
 stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)

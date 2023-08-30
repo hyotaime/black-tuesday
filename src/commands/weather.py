@@ -1,14 +1,10 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-
 from log import logger
-
-import crawling
+import crawling, scheduler, database
 import re
 import random
 import string
-import scheduler
-import database
 
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):

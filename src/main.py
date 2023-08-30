@@ -2,8 +2,10 @@ import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 import os
 from dotenv import load_dotenv
-import database, scheduler
 from commands import start, help, find, now, gpt, alarm, search, kbo, weather
+import log
+import database
+import scheduler
 
 # 토큰 읽기
 load_dotenv()
@@ -13,6 +15,7 @@ bot = tel.Bot(token=BOT_TOKEN)
 
 # 메인 함수
 if __name__ == '__main__':
+    log.logger.addHandler(log.stream_handler)
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     database.db_connection_test()
     scheduler.scheduler.start()
