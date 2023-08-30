@@ -8,7 +8,7 @@ import time
 
 async def now(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - now")
+    logger.info(f"ChatID: {chat_id} - now")
     # 입력 메시지에서 '/now'를 제외한 텍스트 추출
     ticker = update.message.text.replace('/now', '').replace('@black_tuesday_bot', '').strip()
     if ticker == "":
@@ -22,7 +22,7 @@ async def now(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def n(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - n")
+    logger.info(f"ChatID: {chat_id} - n")
     # 입력 메시지에서 '/n'를 제외한 텍스트 추출
     ticker = update.message.text.replace('/n', '').replace('@black_tuesday_bot', '').strip()
     if ticker == "":

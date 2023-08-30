@@ -1,20 +1,21 @@
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
-
-import database
-from commands import start, help, find, now, gpt, alarm, search, kbo
+import os
+from dotenv import load_dotenv
+import database, scheduler
+from commands import start, help, find, now, gpt, alarm, search, kbo, weather
 
 # 토큰 읽기
-with open("./hiddenValues/token_test.txt") as f:
-    lines = f.readlines()
-    token = lines[0].strip()
+load_dotenv()
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
-bot = tel.Bot(token=token)
+bot = tel.Bot(token=BOT_TOKEN)
 
 # 메인 함수
 if __name__ == '__main__':
-    application = ApplicationBuilder().token(token).build()
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
     database.db_connection_test()
+    scheduler.scheduler.start()
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
@@ -47,5 +48,10 @@ if __name__ == '__main__':
     application.add_handler(kbo_handler)
     kbonow_handler = CommandHandler('kbonow', kbo.kbonow)
     application.add_handler(kbonow_handler)
+
+    weather_handler = CommandHandler('weather', weather.weather)
+    application.add_handler(weather_handler)
+    setloc_handler = CommandHandler('setloc', weather.weather_set_loc)
+    application.add_handler(setloc_handler)
 
     application.run_polling()

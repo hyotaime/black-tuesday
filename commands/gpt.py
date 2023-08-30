@@ -12,7 +12,7 @@ openai.api_key = None
 
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - gpt")
+    logger.info(f"ChatID: {chat_id} - gpt")
     openai.api_key = database.get_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     ask_value = update.message.text.replace('/gpt', '').replace('@black_tuesday_bot', '').strip()
@@ -31,7 +31,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
                      "Use \"/gpt clear\" to clear the chat history."
             )
         elif ask_value == "clear":
-            logger.info(f"UserID: {chat_id} - gpt clear")
+            logger.info(f"ChatID: {chat_id} - gpt clear")
             _gpt_chat[chat_id].clear()
             await context.bot.send_message(
                 chat_id=chat_id,
@@ -48,7 +48,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - gptkeyset")
+    logger.info(f"ChatID: {chat_id} - gptkeyset")
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     key_value = update.message.text.replace('/gptkeyset', '').replace('@black_tuesday_bot', '').strip()
     if key_value == "":

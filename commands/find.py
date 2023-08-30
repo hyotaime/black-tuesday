@@ -7,7 +7,7 @@ import crawling
 
 async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - find")
+    logger.info(f"ChatID: {chat_id} - find")
     # 입력 메시지에서 '/find'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/find', '').replace('@black_tuesday_bot', '').strip()
     if search_value == "":
@@ -22,7 +22,7 @@ async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - f")
+    logger.info(f"ChatID: {chat_id} - f")
     # 입력 메시지에서 '/f'를 제외한 텍스트 추출
     search_value = update.message.text.replace('/f', '').replace('@black_tuesday_bot', '').strip()
     if search_value == "":

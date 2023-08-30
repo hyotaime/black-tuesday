@@ -8,13 +8,13 @@ import crawling
 
 async def kbo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - kbo")
+    logger.info(f"ChatID: {chat_id} - kbo")
     await process_kbo(chat_id, context)
 
 
 async def kbonow(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    logger.info(f"UserID: {chat_id} - kbonow")
+    logger.info(f"ChatID: {chat_id} - kbonow")
     await process_kbo_now(chat_id, context)
 
 
