@@ -187,6 +187,7 @@ def weather_crawling(nx, ny):
 
     for i, item in enumerate(items['item']):
         if i < 6:
+            # Kor. to Eng.
             data[i] = ['temperature', 'status_num', 'status', 'rain_type', 'precipitation', 'humidity', 'wind_vane', 'wind_direction', 'wind_speed', 'time']
             if int(item['fcstTime'][0:2]) < 10:
                 data[i % 6][9] = item['fcstTime'][1]
@@ -194,6 +195,7 @@ def weather_crawling(nx, ny):
                 data[i % 6][9] = item['fcstTime'][0:2]
 
         # 강수 형태 (PTY)
+        # Add few more options
         elif 6 <= i < 12:
             data[i % 6][3] = item['fcstValue']
             if item['fcstValue'] == '0':
@@ -217,6 +219,7 @@ def weather_crawling(nx, ny):
             data[i % 6][4] = item['fcstValue']
 
         # 하늘 상태 (SKY)
+        # Add few more options
         elif 18 <= i < 24:
             if item['fcstValue'] == '1':
                 data[i % 6][1] = '☀️'
