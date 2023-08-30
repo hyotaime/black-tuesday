@@ -100,6 +100,10 @@ async def process_weather(chat_id, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_weather_notification(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
+    weather_noti_time = database.get_weather_noti_time(chat_id)
+    if weather_noti_time != alarm_time or weather_noti_time is None:
+        database.set_weather_noti_time(chat_id, alarm_time)
+
     target_hour, target_minute = map(int, alarm_time.split(':'))
     weather_job_id = database.get_weather_job_id(chat_id)
 
