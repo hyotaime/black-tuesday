@@ -18,6 +18,17 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if weather_alarm_time == "":
         logger.info(f"ChatID: {chat_id} - weather")
         await process_weather(chat_id, context)
+    elif weather_alarm_time == "off":
+        logger.info(f"ChatID: {chat_id} - weather notification off")
+        weather_job_id = database.get_weather_job_id(chat_id)
+        job = scheduler.scheduler.get_job(weather_job_id)
+        job.remove()
+        database.set_weather_job_id(chat_id, None)
+        database.set_weather_noti_time(chat_id, None)
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="Weather Notification is turned off."
+        )
     else:
         logger.info(f"ChatID: {chat_id} - weather {weather_alarm_time}")
         time_pattern = r"\b\d{1,2}:\d{2}\b"
