@@ -48,7 +48,7 @@ ___
 ## About Files
 * [`main.py`](src/main.py) - Main file of the bot
 * [`log.py`](src/log.py) - Logging module
-* [`schedule.py`](src/schedule.py) - Scheduler module
+* [`scheduler.py`](src/scheduler.py) - Scheduler module
 * [`database.py`](src/database.py) - Manage database
 * [`crawling.py`](src/crawling.py) - Crawling module
 * [`commands`](src/commands) directory
