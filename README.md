@@ -18,10 +18,10 @@ which refers to the last day of the 1929 Wall Street crash.
 ___
 ## Release
 You can use the latest version of the bot in the Releases on the right.
-The current latest version is `v1.0-beta1`.
+The current latest version is **[v1.0-beta1](https://github.com/hyotaime/black-tuesday/releases/tag/v1.0-beta1)**.
 
 우측의 Releases에서 최신 버전의 봇을 사용할 수 있습니다.
-현재 최신 버전은 `v1.0-beta1`입니다.
+현재 최신 버전은 **[v1.0-beta1](https://github.com/hyotaime/black-tuesday/releases/tag/v1.0-beta1)** 입니다.
 ___
 ## Commands
 * `/help` - Show command list
