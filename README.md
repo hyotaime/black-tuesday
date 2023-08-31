@@ -1,6 +1,8 @@
 # black-T.U.E.S.D.A.Y
 Telegram-bot Ultimately Essential Service Definitively Assist You
 
+<img src="https://github.com/hyotaime/black-tuesday/assets/109580929/9210d736-a41a-4749-83b9-1f43c3401ee3" width="200" height="200"/>
+
 ## Introduction
 ### English
 This is a bot project that provides various convenience functions using 
