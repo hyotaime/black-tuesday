@@ -14,7 +14,7 @@ which refers to the last day of the 1929 Wall Street crash.
 ### 한국어
 [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)을 이용하여 여러 편의 기능들을 제공하는 봇 프로젝트입니다.
 
-초기에는 주식 알림 봇을 목적으로 개발하였기 때문에 1929년 월스트리트 대폭락의 마지막 날을 지칭하는 검은 화요일로 이름으로 짓게 되었습니다.
+초기에는 주식 알림 봇을 목적으로 개발하였기 때문에 1929년 월스트리트 대폭락의 마지막 날을 지칭하는 검은 화요일로 이름을 짓게 되었습니다.
 ___
 ## Release
 You can use the latest version of the bot in the Releases on the right.
