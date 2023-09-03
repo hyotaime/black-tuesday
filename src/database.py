@@ -6,17 +6,19 @@ import os
 
 def get_secure_info():
     load_dotenv()
+    DB_HOST = os.environ.get('DB_HOST')
     DB_USERNAME = os.environ.get('DB_USERNAME')
     DB_PASSWORD = os.environ.get('DB_PASSWORD')
+    DB_PORT = os.environ.get('DB_PORT')
     DB_NAME = os.environ.get('DB_NAME')
-    return DB_USERNAME, DB_PASSWORD, DB_NAME
+    return DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME
 
 
 def db_connection_test():
     logger.info(f"DB connection test")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
@@ -30,9 +32,9 @@ def db_connection_test():
 
 def set_key(chat_id, key_value):
     logger.info("set key")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -54,9 +56,9 @@ def set_key(chat_id, key_value):
 
 def get_key(chat_id):
     logger.info("get key")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -74,9 +76,9 @@ def get_key(chat_id):
 
 def set_weather_job_id(chat_id, key_value):
     logger.info("set weather_job_id")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -98,9 +100,9 @@ def set_weather_job_id(chat_id, key_value):
 
 def get_weather_job_id(chat_id):
     logger.info("get weather_job_id")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -118,9 +120,9 @@ def get_weather_job_id(chat_id):
 
 def set_weather_location(chat_id, weather_nx: str, weather_ny: str):
     logger.info("set weather_job_id")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -142,9 +144,9 @@ def set_weather_location(chat_id, weather_nx: str, weather_ny: str):
 
 def get_weather_location(chat_id):
     logger.info("get weather_job_id")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -162,9 +164,9 @@ def get_weather_location(chat_id):
 
 def set_weather_noti_time(chat_id, weather_noti_time: str):
     logger.info("set weather_noti_time")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
@@ -186,9 +188,9 @@ def set_weather_noti_time(chat_id, weather_noti_time: str):
 
 def get_weather_noti_time(chat_id):
     logger.info("get weather_noti_time")
-    DB_USERNAME, DB_PASSWORD, DB_NAME = get_secure_info()
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:
-        with pymysql.connect(host='127.0.0.1', user=DB_USERNAME, password=DB_PASSWORD,
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 try:
