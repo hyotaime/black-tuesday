@@ -57,7 +57,7 @@ def search_crawling(search_value):
 
 
 def kbo_crawling():
-    url = "https://www.koreabaseball.com/TeamRank/TeamRank.aspx"
+    url = "https://www.koreabaseball.com/Record/TeamRank/TeamRank.aspx"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
@@ -79,20 +79,18 @@ def kbo_crawling():
         wins = columns[3].get_text()
         losses = columns[4].get_text()
         draws = columns[5].get_text()
-        winning_percentage = columns[6].get_text()
         win_streak = columns[7].get_text()
         recent_wins = columns[9].get_text()
 
         team_data = {
-            "Rank": rank,
-            "Team Name": team_name,
-            "Games Played": games_played,
-            "Wins": wins,
-            "Losses": losses,
-            "Draws": draws,
-            "Winning Percentage": winning_percentage,
-            "Win Streak": win_streak,
-            "Recent Wins": recent_wins
+            "순위": rank,
+            "팀명": team_name,
+            "게임": games_played,
+            "승": wins,
+            "패": losses,
+            "무": draws,
+            "게임차": win_streak,
+            "연속": recent_wins
         }
 
         team_data_list.append(team_data)
@@ -101,64 +99,36 @@ def kbo_crawling():
 
 
 def kbo_now_crawling():
-    # https://velog.io/@hjw4287/BeautifulSoup%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%84%A4%EC%9D%B4%EB%B2%84-%EC%8A%A4%ED%8F%AC%EC%B8%A0-%ED%81%AC%EB%A1%A4%EB%A7%81
-    # 위 블로그 참고함
-
     # 국내 야구
-    url = "https://sports.news.naver.com/kbaseball/schedule/index"
+    url = "https://api-gw.sports.naver.com/schedule/games?fields=basic%2CsuperCategoryId%2CcategoryName%2Cstadium%2CstatusNum%2CgameOnAir%2Ctitle%2CspecialMatchInfo%2CroundCode%2CseriesOutcome%2CseriesGameNo%2ChomeStarterName%2CawayStarterName%2CwinPitcherName%2ClosePitcherName%2ChomeCurrentPitcherName%2CawayCurrentPitcherName%2CbroadChannel&upperCategoryId=kbaseball&categoryId=kbo&roundCodes=&size=500"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
-    res = requests.get(url, headers=headers)
-    res.raise_for_status()
+    response = requests.get(url, headers=headers).json()
 
-    soup = BeautifulSoup(res.text, 'lxml')
-    # naver에서 div를 날짜별 홀수와 짝수로 나누어 놓음
-    soup_data = [soup.find_all("div", {"class": "sch_tb"}), soup.find_all("div", {"class": "sch_tb2"})]
-    datalist = []
-    for data_table in soup_data:
-        for data in data_table:
-            # 일자
-            date_value = data.find("span", {"class": "td_date"}).text
-            # 정렬을 위한 일자 포맷 통일
-            if len(date_value.split(" ")[0].split(".")[1]) == 1:
-                date_value = date_value.split(" ")[0].split(".")[0] + ".0" + date_value.split(" ")[0].split(".")[
-                    1] + " " + date_value.split(" ")[1]
-            match_cnt = data.find("td")["rowspan"]
-            for i in range(int(match_cnt)):
-                match_data = {"date": date_value,
-                              "time": data.find_all("tr")[i].find("span", {"class": "td_hour"}).text}
-                # 해당 일자에 경기가 없을 시 naver sports에서 match_data["time"] = "-" 반환
-                if match_data["time"] != "-":
-                    # 홈팀
-                    match_data["home"] = data.find_all("tr")[i].find("span", {"class": "team_rgt"}).text
-                    # 어웨이팀
-                    match_data["away"] = data.find_all("tr")[i].find("span", {"class": "team_lft"}).text
-                    # VS일 시 예정 경기
-                    if data.find_all("tr")[i].find("strong", {"class": "td_score"}).text != "VS":
-                        # 홈팀 점수
-                        match_data["home_score"] = \
-                            data.find_all("tr")[i].find("strong", {"class": "td_score"}).text.split(":")[1]
-                        # 어웨이팀 점수
-                        match_data["away_score"] = \
-                            data.find_all("tr")[i].find("strong", {"class": "td_score"}).text.split(":")[0]
-                    else:
-                        match_data["home_score"] = "-"
-                        match_data["away_score"] = "-"
-                    # 중계
-                    match_data["broadcast"] = data.find_all("tr")[i].find_all("span", {"class": "td_stadium"})[
-                        0].text.strip().replace("\n", "").replace("\t", "")
-                    # 경기장
-                    match_data["stadium"] = data.find_all("tr")[i].find_all("span", {"class": "td_stadium"})[1].text
-                else:
-                    match_data["home"] = "-"
-                    match_data["away"] = "-"
-                    match_data["home_score"] = "-"
-                    match_data["away_score"] = "-"
-                    match_data["broadcast"] = "-"
-                    match_data["stadium"] = "-"
-                datalist.append(match_data)
-    results = sorted(datalist, key=lambda k: (k["date"], k["time"]))
+    results = []
+    for game in response['result']['games']:
+        result = {'time': '-', 'away': '-', 'away_score': '-', 'home': '-', 'home_score': '-', 'broadcast': '-',
+                  'stadium': '-', 'status_code': '-', 'status_info': '-', 'home_pitcher': '-', 'away_pitcher': '-',
+                  'home_starter': '-', 'away_starter': '-'}
+        result.update({
+            'time': game['gameDateTime'][-8:-3],
+            'away': game['awayTeamName'],
+            'away_score': game['awayTeamScore'],
+            'home': game['homeTeamName'],
+            'home_score': game['homeTeamScore'],
+            'broadcast': game['broadChannel'].replace('^', ', '),
+            'stadium': game['stadium'],
+            'status_code': game['statusCode'],
+            'status_info': game['statusInfo'],
+            'home_pitcher': game['homeCurrentPitcherName'],
+            'away_pitcher': game['awayCurrentPitcherName'],
+            'home_starter': game['homeStarterName'],
+            'away_starter': game['awayStarterName']
+        })
+        if result['status_code'] == 'RESULT':
+            result['status_info'] = '종료'
+        results.append(result)
     return results
 
 
