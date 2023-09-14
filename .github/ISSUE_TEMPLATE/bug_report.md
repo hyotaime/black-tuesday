@@ -20,8 +20,8 @@ assignees: ''
 <!--If applicable, add screenshots to help explain your problem.-->
 
 **Environment**
- - OS: [e.g. MacOSX]
- - Python Version: [e.g. 3.11.0]
+ - OS: <!--[e.g. MacOSX]-->
+ - Python Version: <!--[e.g. 3.11.0]-->
 
 **Additional context**
 <!--Add any other context about the problem here.-->
