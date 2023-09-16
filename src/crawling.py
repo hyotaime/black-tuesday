@@ -57,7 +57,8 @@ def search_crawling(search_value):
 
 
 def kbo_crawling():
-    url = "https://www.koreabaseball.com/Record/TeamRank/TeamRank.aspx"
+    load_dotenv()
+    url = os.environ.get('KBO_URL')
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
@@ -100,7 +101,8 @@ def kbo_crawling():
 
 def kbo_now_crawling():
     # 국내 야구
-    url = "https://api-gw.sports.naver.com/schedule/games?fields=basic%2CsuperCategoryId%2CcategoryName%2Cstadium%2CstatusNum%2CgameOnAir%2Ctitle%2CspecialMatchInfo%2CroundCode%2CseriesOutcome%2CseriesGameNo%2ChomeStarterName%2CawayStarterName%2CwinPitcherName%2ClosePitcherName%2ChomeCurrentPitcherName%2CawayCurrentPitcherName%2CbroadChannel&upperCategoryId=kbaseball&categoryId=kbo&roundCodes=&size=500"
+    load_dotenv()
+    url = os.environ.get('KBO_NOW_URL')
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
     }
@@ -132,6 +134,120 @@ def kbo_now_crawling():
     return results
 
 
+def npb_crawling():
+    # 日本野球
+    load_dotenv()
+    url = os.environ.get('NPB_URL')
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+    }
+
+    # 주어진 URL에 GET 요청 보내기
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.content, "html.parser")
+    tables = soup.find_all("section", class_="bb-modCommon01")
+    teams_central = tables[0].find_all("tr", class_="bb-rankTable__row")
+    teams_pacific = tables[1].find_all("tr", class_="bb-rankTable__row")
+    team_data_central = []
+    team_data_pacific = []
+
+    for team in teams_central:
+        team_data = {
+            'rank': team.find_all("td", class_="bb-rankTable__data")[0].get_text().strip(),
+            'team_name': team.find_all("td", class_="bb-rankTable__data")[1].get_text().strip(),
+            'games_played': team.find_all("td", class_="bb-rankTable__data")[2].get_text().strip(),
+            'wins': team.find_all("td", class_="bb-rankTable__data")[3].get_text().strip(),
+            'losses': team.find_all("td", class_="bb-rankTable__data")[4].get_text().strip(),
+            'draws': team.find_all("td", class_="bb-rankTable__data")[5].get_text().strip(),
+            'winning_percentage': team.find_all("td", class_="bb-rankTable__data")[6].get_text().strip(),
+            'win_streak': team.find_all("td", class_="bb-rankTable__data")[7].get_text().strip(),
+        }
+        team_data_central.append(team_data)
+
+    for team in teams_pacific:
+        team_data = {
+            'rank': team.find_all("td", class_="bb-rankTable__data")[0].get_text().strip(),
+            'team_name': team.find_all("td", class_="bb-rankTable__data")[1].get_text().strip(),
+            'games_played': team.find_all("td", class_="bb-rankTable__data")[2].get_text().strip(),
+            'wins': team.find_all("td", class_="bb-rankTable__data")[3].get_text().strip(),
+            'losses': team.find_all("td", class_="bb-rankTable__data")[4].get_text().strip(),
+            'draws': team.find_all("td", class_="bb-rankTable__data")[5].get_text().strip(),
+            'winning_percentage': team.find_all("td", class_="bb-rankTable__data")[6].get_text().strip(),
+            'win_streak': team.find_all("td", class_="bb-rankTable__data")[7].get_text().strip(),
+        }
+        team_data_pacific.append(team_data)
+
+    return team_data_central, team_data_pacific
+
+
+def npb_now_crawling():
+    # 日本野球
+    load_dotenv()
+    url = os.environ.get('NPB_NOW_URL')
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+    }
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.content, "html.parser")
+    games = soup.find_all("tr", class_="bb-scheduleTable__row bb-scheduleTable__row--today")
+    results = []
+    for game in games:
+        home = game.find_all("p", class_="bb-scheduleTable__homeName")[0].get_text().strip()
+        away = game.find_all("p", class_="bb-scheduleTable__awayName")[0].get_text().strip()
+        time = game.find_all("div", class_="bb-scheduleTable__info")[0].get_text().strip()
+        stadium = game.find_all("td", class_="bb-scheduleTable__data bb-scheduleTable__data--stadium")[
+            0].get_text().strip()
+        if time[-4:] == "見どころ" or time[-4:] == "スタメン":
+            score = '-'
+            time = time.replace("見どころ", "").replace("スタメン", "").strip()
+        else:
+            time = '-'
+            score = game.find_all("p", class_="bb-scheduleTable__score")[0].get_text().strip().replace(" ", "").replace("\n", "")
+        away_score = score.split("-")[1]
+        home_score = score.split("-")[0]
+        status = game.find_all("p", class_="bb-scheduleTable__status")[0].get_text().strip()
+        home_starter = "-"
+        away_starter = "-"
+        win_pitcher = "-"
+        lose_pitcher = "-"
+        save_pitcher = "-"
+        if status == "見どころ":
+            home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[0].get_text().strip()
+            away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[1].get_text().strip()
+        elif status == "スタメン":
+            home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[0].get_text().strip()
+            away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[1].get_text().strip()
+        elif status == "試合終了":
+            win_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--win")[0].get_text().strip()
+            lose_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--lose")[0].get_text().strip()
+            try:
+                save_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--save")[0].get_text().strip()
+            except IndexError:
+                save_pitcher = "-"
+        if status == "見どころ" or status == "スタメン":
+            status = "試合前"
+        result = {'time': '-', 'away': '-', 'away_score': '-', 'home': '-', 'home_score': '-', 'stadium': '-', 'status_info': '-',
+                  'home_starter': '-', 'away_starter': '-', 'winning_pitcher': '-', 'losing_pitcher': '-', 'save_pitcher': '-'}
+        result.update({
+            'time': time,
+            'away': away,
+            'away_score': away_score,
+            'home': home,
+            'home_score': home_score,
+            'stadium': stadium,
+            'status_info': status,
+            'away_starter': away_starter,
+            'home_starter': home_starter,
+            'score': score,
+            'winning_pitcher': win_pitcher,
+            'losing_pitcher': lose_pitcher,
+            'save_pitcher': save_pitcher,
+        })
+        results.append(result)
+
+    return results
+
+
 def weather_crawling(nx, ny):
     # https://github.com/az0t0/discord-seoultechbot/blob/main/src/weather.py
     # 위 repository 참고함
@@ -158,7 +274,8 @@ def weather_crawling(nx, ny):
     for i, item in enumerate(items['item']):
         if i < 6:
             # Kor. to Eng.
-            data[i] = ['temperature', 'status_num', 'status', 'rain_type', 'precipitation', 'humidity', 'wind_vane', 'wind_direction', 'wind_speed', 'time']
+            data[i] = ['temperature', 'status_num', 'status', 'rain_type', 'precipitation', 'humidity', 'wind_vane',
+                       'wind_direction', 'wind_speed', 'time']
             if int(item['fcstTime'][0:2]) < 10:
                 data[i % 6][9] = item['fcstTime'][1]
             else:

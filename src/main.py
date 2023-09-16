@@ -2,7 +2,7 @@ import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 import os
 from dotenv import load_dotenv
-from commands import start, help, find, now, gpt, alarm, search, kbo, weather
+from commands import start, help, find, now, gpt, alarm, search, kbo, weather, npb
 import log
 import database
 import scheduler
@@ -51,6 +51,11 @@ if __name__ == '__main__':
     application.add_handler(kbo_handler)
     kbonow_handler = CommandHandler('kbonow', kbo.kbonow)
     application.add_handler(kbonow_handler)
+
+    npb_handler = CommandHandler('npb', npb.npb)
+    application.add_handler(npb_handler)
+    npbnow_handler = CommandHandler('npbnow', npb.npbnow)
+    application.add_handler(npbnow_handler)
 
     weather_handler = CommandHandler('weather', weather.weather)
     application.add_handler(weather_handler)

@@ -16,6 +16,8 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
              "/setloc - Set location for weather command\n"
              "/kbo - Show KBO league table\n"
              "/kbonow - Show today's KBO game schedule\n"
+             "/npb - Show NPB league table\n"
+             "/npbnow - Show today's NPB game schedule\n"
              "/gpt - Ask anything to chatGPT\n"
              "/gptkeyset - Set your chatGPT API key\n"
              "/find - Search stock information at investing.com\n"
