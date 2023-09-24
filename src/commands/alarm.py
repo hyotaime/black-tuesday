@@ -7,18 +7,17 @@ import re
 
 async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    weather_alarm_job = database.get_weather_job_id(chat_id)
     logger.info(f"ChatID: {chat_id} - alarm")
 
     # 입력 메시지에서 '/alarm'를 제외한 텍스트 추출
     alarm_time = update.message.text.replace('/alarm', '').replace('@black_tuesday_bot', '').strip()
-    # 정규식을 사용하여 알람 시간 형식이 "9:30"과 같은지 확인
-    time_pattern = r"\b\d{1,2}:\d{2}\b"
+    # 정규식을 사용하여 알람 시간 형식이 "09:30"과 같은지 확인
+    time_pattern = r"\d{2}:\d{2}\b"
 
     if alarm_time == "":
         jobs = scheduler.scheduler.get_jobs()
         matching_jobs = [job for job in jobs if job.args and len(job.args) > 0 \
-                         and job.args[0] == chat_id and job.id != weather_alarm_job]
+                         and job.args[0] == chat_id and job.id != "weatheralarmscheduler"]
         if matching_jobs:
             alarm_list = "\n".join([f"{i + 1}. {job.next_run_time.time()}\n"
                                     f"ID: {job.id}\n"
@@ -36,7 +35,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                      "e.g.)\t/alarm 9:30"
             )
     elif alarm_time == "all":
-        await remove_all_alarms(chat_id, context, weather_alarm_job)
+        await remove_all_alarms(chat_id, context)
     elif re.match(time_pattern, alarm_time):
         try:
             process_alarm(chat_id, context, alarm_time)
@@ -59,7 +58,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     else:
         alarm_identifier = alarm_time
-        await remove_alarm(chat_id, context, alarm_identifier, weather_alarm_job)
+        await remove_alarm(chat_id, context, alarm_identifier)
 
 
 async def print_notification(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
@@ -76,10 +75,10 @@ def process_alarm(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
                                 args=(chat_id, context))
 
 
-async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_identifier: str, weather_alarm_job: str):
+async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_identifier: str):
     jobs = scheduler.scheduler.get_jobs()
     matching_jobs = [job for job in jobs if job.args and len(job.args) > 0 \
-                     and job.args[0] == chat_id and job.id != weather_alarm_job]
+                     and job.args[0] == chat_id and job.id != "weatheralarmscheduler"]
     if alarm_identifier.isdigit():  # 입력 값이 숫자일 경우 index로 처리
         logger.info(f"ChatID: {chat_id} - remove_alarm_by_index")
         try:
@@ -114,12 +113,12 @@ async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_i
         await remove_alarm_by_id(chat_id, context, alarm_identifier)
 
 
-async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_id: str, weather_alarm_job: str):
+async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_id: str):
     logger.info(f"ChatID: {chat_id} - remove_alarm_by_id")
     try:
         job_id = alarm_id
         job = scheduler.scheduler.get_job(job_id)
-        if job.args[0] == chat_id and job.id != weather_alarm_job:
+        if job.args[0] == chat_id and job.id != "weatheralarmscheduler":
             alarm_time = job.next_run_time.time()
             job.remove()
             await context.bot.send_message(
@@ -139,11 +138,11 @@ async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, a
         )
 
 
-async def remove_all_alarms(chat_id: int, context: ContextTypes.DEFAULT_TYPE, weather_alarm_job: str):
+async def remove_all_alarms(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"ChatID: {chat_id} - remove_all_alarms")
     jobs = scheduler.scheduler.get_jobs()
     for job in jobs:
-        if chat_id == job.args[0] and job.id != weather_alarm_job:
+        if chat_id == job.args[0] and job.id != "weatheralarmscheduler":
             job.remove()
 
     await context.bot.send_message(

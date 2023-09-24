@@ -44,35 +44,36 @@ async def process_npb(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
 async def process_npb_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     games = crawling.npb_now_crawling()
     message = ""
-    for game in games:
-        if games is None:
-            message = "プロ野球の試合がありません。"
-        elif game['status_info'] == '試合前':
-            message += (f"{game['time']} {game['status_info']} {game['stadium']}\n"
-                        f"{game['away']}({game['away_starter']}) vs {game['home']}({game['home_starter']})\n\n")
-        elif game['status_info'] == '試合終了':
-            if game['away_score'] > game['home_score']:
-                message += (f"{game['status_info']} {game['stadium']}\n"
-                            f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
-                            f"(勝){game['winning_pitcher']}  (敗){game['losing_pitcher']}\n")
-                if game['save_pitcher'] != '-':
-                    message += (f"(S){game['save_pitcher']}\n\n")
+    if not games:
+        message = "プロ野球の試合がありません。"
+    else:
+        for game in games:
+            if game['status_info'] == '試合前':
+                message += (f"{game['time']} {game['status_info']} {game['stadium']}\n"
+                            f"{game['away']}({game['away_starter']}) vs {game['home']}({game['home_starter']})\n\n")
+            elif game['status_info'] == '試合終了':
+                if game['away_score'] > game['home_score']:
+                    message += (f"{game['status_info']} {game['stadium']}\n"
+                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
+                                f"(勝){game['winning_pitcher']}  (敗){game['losing_pitcher']}\n")
+                    if game['save_pitcher'] != '-':
+                        message += f"(S){game['save_pitcher']}\n\n"
+                    else:
+                        message += "\n"
+                elif game['away_score'] < game['home_score']:
+                    message += (f"{game['status_info']} {game['stadium']}\n"
+                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
+                                f"(敗){game['losing_pitcher']}\t\t(勝){game['winning_pitcher']}\n")
+                    if game['save_pitcher'] != '-':
+                        message += f"               (S){game['save_pitcher']}\n\n"
+                    else:
+                        message += "\n"
                 else:
-                    message += "\n"
-            elif game['away_score'] < game['home_score']:
-                message += (f"{game['status_info']} {game['stadium']}\n"
-                            f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
-                            f"(敗){game['losing_pitcher']}\t\t(勝){game['winning_pitcher']}\n")
-                if game['save_pitcher'] != '-':
-                    message += (f"               (S){game['save_pitcher']}\n\n")
-                else:
-                    message += "\n"
+                    message += (f"{game['status_info']} {game['stadium']}\n"
+                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n")
             else:
                 message += (f"{game['status_info']} {game['stadium']}\n"
-                            f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n")
-        else:
-            message += (f"{game['away']} {game['away_score']} {game['status_info']} {game['home_score']} {game['home']}\n"
-                        f"{game['stadium']}\n\n")
+                            f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n\n")
 
     await context.bot.send_message(
         chat_id=chat_id,

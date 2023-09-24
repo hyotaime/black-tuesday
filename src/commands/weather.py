@@ -1,10 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from log import logger
-import crawling, scheduler, database
+import crawling, database
 import re
-import random
-import string
+import datetime
 
 
 async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -16,10 +15,6 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await process_weather(chat_id, context)
     elif weather_alarm_time == "off":
         logger.info(f"ChatID: {chat_id} - weather notification off")
-        weather_job_id = database.get_weather_job_id(chat_id)
-        job = scheduler.scheduler.get_job(weather_job_id)
-        job.remove()
-        database.set_weather_job_id(chat_id, None)
         database.set_weather_noti_time(chat_id, None)
         await context.bot.send_message(
             chat_id=chat_id,
@@ -27,10 +22,10 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     else:
         logger.info(f"ChatID: {chat_id} - weather {weather_alarm_time}")
-        time_pattern = r"\b\d{1,2}:\d{2}\b"
+        time_pattern = r"\d{2}:\d{2}\b"
         if re.match(time_pattern, weather_alarm_time):
             try:
-                await process_weather_notification(chat_id, context, weather_alarm_time)
+                await process_set_weather_notification(chat_id, context, weather_alarm_time)
             except ValueError:
                 await context.bot.send_message(
                     chat_id=chat_id,
@@ -41,7 +36,7 @@ async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await context.bot.send_message(
                 chat_id=chat_id,
                 text="Check the time format.\n"
-                     "Correct Form: 9:30, 22:10\n"
+                     "Correct Form: 09:30, 22:10\n"
             )
 
 
@@ -67,73 +62,73 @@ async def weather_set_loc(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_weather(chat_id, context: ContextTypes.DEFAULT_TYPE):
-    nx, ny = database.get_weather_location(chat_id)
-    if nx is None or ny is None:
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="Please set your location.\n"
-                 "e.g.) /setloc 12 345"
-        )
-        return
-    today, weather_datas = crawling.weather_crawling(nx, ny)
-    message = ""
-    now_weather = weather_datas[0]
-    if now_weather[3] != '0':
-        message += (f"{today.month}월 {today.day}일 {today.hour}시 {today.minute}분 날씨입니다.\n"
-                    f"{now_weather[3]}\n"
-                    f"🌧강수량: {now_weather[4]}\n"
-                    f"🌡기온: {now_weather[0]}°C\n"
-                    f"💧습도: {now_weather[5]}%\n"
-                    f"💨바람: {now_weather[7]}({now_weather[6]}°)방향으로 {now_weather[8]}m/s\n"
-                    f"날씨예보\n")
-    else:
-        message += (f"{today.month}월 {today.day}일 {today.hour}시 {today.minute}분 날씨입니다.\n"
-                    f"{now_weather[1]}{now_weather[2]}\n"
-                    f"🌡기온: {now_weather[0]}°C\n"
-                    f"💧습도: {now_weather[5]}%\n"
-                    f"💨바람: {now_weather[7]}({now_weather[6]}°)방향으로 {now_weather[8]}m/s\n"
-                    f"날씨예보\n")
-    for weather_data in weather_datas[1:]:
-        if weather_data[3] != '0':
-            message += f"{weather_data[9]}시: ☔{weather_data[0]}°C, 💧{weather_data[5]}%\n"
+    try:
+        nx, ny = database.get_weather_location(chat_id)
+        if nx is None or ny is None:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Please set your location.\n"
+                     "e.g.) /setloc 12 345"
+            )
+            return
+        today, weather_datas = crawling.weather_crawling(nx, ny)
+        message = ""
+        now_weather = weather_datas[0]
+        if now_weather[3] != '0':
+            message += (f"{today.month}월 {today.day}일 {today.hour}시 {today.minute}분 날씨입니다.\n"
+                        f"{now_weather[3]}\n"
+                        f"🌧강수량: {now_weather[4]}\n"
+                        f"🌡기온: {now_weather[0]}°C\n"
+                        f"💧습도: {now_weather[5]}%\n"
+                        f"💨바람: {now_weather[7]}({now_weather[6]}°)방향으로 {now_weather[8]}m/s\n"
+                        f"날씨예보\n")
         else:
-            message += f"{weather_data[9]}시: {weather_data[1]}{weather_data[0]}°C, 💧{weather_data[5]}%\n"
-    message += "기상청 초단기예보 조회 서비스 오픈 API를 이용한 것으로, 실제 기상상황과 차이가 있을 수 있습니다."
+            message += (f"{today.month}월 {today.day}일 {today.hour}시 {today.minute}분 날씨입니다.\n"
+                        f"{now_weather[1]}{now_weather[2]}\n"
+                        f"🌡기온: {now_weather[0]}°C\n"
+                        f"💧습도: {now_weather[5]}%\n"
+                        f"💨바람: {now_weather[7]}({now_weather[6]}°)방향으로 {now_weather[8]}m/s\n"
+                        f"날씨예보\n")
+        for weather_data in weather_datas[1:]:
+            if weather_data[3] != '0':
+                message += f"{weather_data[9]}시: ☔{weather_data[0]}°C, 💧{weather_data[5]}%\n"
+            else:
+                message += f"{weather_data[9]}시: {weather_data[1]}{weather_data[0]}°C, 💧{weather_data[5]}%\n"
+        message += "기상청 초단기예보 조회 서비스 오픈 API를 이용한 것으로, 실제 기상상황과 차이가 있을 수 있습니다."
 
-    await context.bot.send_message(
-        chat_id=chat_id,
-        text=message
-    )
-
-
-async def process_weather_notification(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
-    weather_noti_time = database.get_weather_noti_time(chat_id)
-    if weather_noti_time != alarm_time or weather_noti_time is None:
-        database.set_weather_noti_time(chat_id, alarm_time)
-
-    target_hour, target_minute = map(int, alarm_time.split(':'))
-    weather_job_id = database.get_weather_job_id(chat_id)
-
-    if weather_job_id is None:
-        rand_str = ""
-        for i in range(34):
-            rand_str += str(random.choice(string.ascii_uppercase + string.digits))
-        weather_job_id = "W" + rand_str
-    job = scheduler.scheduler.get_job(weather_job_id)
-    if job is not None:
-        job.remove()
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"Weather Notification Time is changed to {alarm_time}."
+            text=message
         )
-    else:
+    except Exception:
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="날씨를 불러오는 중 문제가 발생했습니다."
+        )
+
+
+async def process_weather_notification(context: ContextTypes.DEFAULT_TYPE):
+    logger.info(f"weather notification")
+    current_time = datetime.datetime.now().strftime("%H:%M")
+    chatids = database.get_weather_noti_id(current_time)
+    for chatid in chatids:
+        await process_weather(chatid['id'], context)
+
+
+async def process_set_weather_notification(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
+    weather_noti_exist = False
+    weather_noti_lists = database.get_weather_noti_id(alarm_time)
+    for weather_noti_list in weather_noti_lists:
+        if weather_noti_list['id'] == chat_id:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text=f"Weather Notification in {alarm_time} is already exist."
+            )
+            weather_noti_exist = True
+            break
+    if not weather_noti_exist:
+        database.set_weather_noti_time(chat_id, alarm_time)
         await context.bot.send_message(
             chat_id=chat_id,
             text="Weather Notification is set to " + alarm_time + ".\n"
         )
-    scheduler.scheduler.add_job(process_weather, 'cron', hour=target_hour, minute=target_minute, args=(chat_id, context), id=weather_job_id)
-    database.set_weather_job_id(chat_id, weather_job_id)
-
-
-def process_set_weather_location(chat_id, nx, ny):
-    database.set_weather_location(chat_id, nx, ny)

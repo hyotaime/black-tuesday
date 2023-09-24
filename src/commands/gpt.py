@@ -29,7 +29,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
                      "Use \"/gpt clear\" to clear the chat history."
             )
         elif ask_value == "clear":
-            log.logger.info(f"ChatID: {chat_id} - gpt clear")
+            logger.info(f"ChatID: {chat_id} - gpt clear")
             _gpt_chat[chat_id].clear()
             await context.bot.send_message(
                 chat_id=chat_id,

@@ -19,6 +19,8 @@ if __name__ == '__main__':
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     database.db_connection_test()
     scheduler.scheduler.start()
+    scheduler.scheduler.add_job(weather.process_weather_notification, 'cron', second=0, args=(application, ), id='weatheralarmscheduler')
+    # scheduler.scheduler.add_job(alarm.process_alarm_notification, 'cron', second=0, args=application)
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
