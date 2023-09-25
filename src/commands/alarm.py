@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from log import logger
-import database, scheduler
+import database, scheduler, datetime
 import re
 
 
@@ -15,14 +15,12 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     time_pattern = r"\d{2}:\d{2}\b"
 
     if alarm_time == "":
-        jobs = scheduler.scheduler.get_jobs()
-        matching_jobs = [job for job in jobs if job.args and len(job.args) > 0 \
-                         and job.args[0] == chat_id and job.id != "weatheralarmscheduler"]
-        if matching_jobs:
-            alarm_list = "\n".join([f"{i + 1}. {job.next_run_time.time()}\n"
-                                    f"ID: {job.id}\n"
+        alarms = database.get_alarm(chat_id)
+        if alarms:
+            alarm_list = "\n".join([f"{i + 1}. {alarm['time']}\n"
+                                    f"ID: {alarm['id']}\n"
                                     f""
-                                    for i, job in enumerate(matching_jobs)])
+                                    for i, alarm in enumerate(alarms)])
             await context.bot.send_message(
                 chat_id=chat_id,
                 text="Alarm List:\n" + alarm_list
@@ -32,13 +30,13 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_id=chat_id,
                 text="There are no scheduled alarms.\n"
                      "Please enter your alarm time(00:00~23:59).\n"
-                     "e.g.)\t/alarm 9:30"
+                     "e.g.)\t/alarm 09:30"
             )
     elif alarm_time == "all":
         await remove_all_alarms(chat_id, context)
     elif re.match(time_pattern, alarm_time):
         try:
-            process_alarm(chat_id, context, alarm_time)
+            database.set_alarm(chat_id, alarm_time)
             await context.bot.send_message(
                 chat_id=chat_id,
                 text=f"Alarm set for {alarm_time}."
@@ -54,7 +52,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(
             chat_id=chat_id,
             text="Check the time format.\n"
-                 "Correct Form: 9:30, 22:10\n"
+                 "Correct Form: 09:30, 22:10\n"
         )
     else:
         alarm_identifier = alarm_time
@@ -68,31 +66,22 @@ async def print_notification(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-def process_alarm(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
-    target_hour, target_minute = map(int, alarm_time.split(':'))
-
-    scheduler.scheduler.add_job(print_notification, 'cron', hour=target_hour, minute=target_minute,
-                                args=(chat_id, context))
-
-
 async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_identifier: str):
-    jobs = scheduler.scheduler.get_jobs()
-    matching_jobs = [job for job in jobs if job.args and len(job.args) > 0 \
-                     and job.args[0] == chat_id and job.id != "weatheralarmscheduler"]
+    alarm_list = database.get_alarm(chat_id)
     if alarm_identifier.isdigit():  # 입력 값이 숫자일 경우 index로 처리
         logger.info(f"ChatID: {chat_id} - remove_alarm_by_index")
         try:
-            if matching_jobs:
+            if alarm_list:
                 try:
                     index = int(alarm_identifier) - 1
-                    selected_alarm = matching_jobs[index]
+                    selected_alarm = alarm_list[index]
                     await context.bot.send_message(
                         chat_id=chat_id,
                         text=f"Alarm No.{alarm_identifier} has been removed.\n"
-                             f"{selected_alarm.next_run_time.time()}\n"
-                             f"(ID: {selected_alarm.id})"
+                             f"{selected_alarm['time']}\n"
+                             f"(ID: {selected_alarm['id']})"
                     )
-                    selected_alarm.remove()
+                    database.remove_alarm(selected_alarm['id'])
                 except IndexError as e:
                     await context.bot.send_message(
                         chat_id=chat_id,
@@ -113,39 +102,48 @@ async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_i
         await remove_alarm_by_id(chat_id, context, alarm_identifier)
 
 
-async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_id: str):
+async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_identifier: str):
     logger.info(f"ChatID: {chat_id} - remove_alarm_by_id")
+    alarm_list = database.get_alarm(chat_id)
     try:
-        job_id = alarm_id
-        job = scheduler.scheduler.get_job(job_id)
-        if job.args[0] == chat_id and job.id != "weatheralarmscheduler":
-            alarm_time = job.next_run_time.time()
-            job.remove()
+        alarm_id = alarm_identifier
+        alarm_time = ""
+        alarm_exists = False
+        for alarm in alarm_list:
+            if alarm['id'] == alarm_id:
+                alarm_time += alarm['time']
+                database.remove_alarm(alarm_id)
+                await context.bot.send_message(
+                    chat_id=chat_id,
+                    text=f"{alarm_time} Alarm has been cleared.\n"
+                         f"(ID: {alarm_id})"
+                )
+                alarm_exists = True
+                break
+        if not alarm_exists:
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"{alarm_time} Alarm has been cleared.\n"
-                     f"(ID: {job_id})"
-            )
-        else:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"Alarm(ID: {job_id}) not found."
+                text=f"Alarm(ID: {alarm_id}) not found."
             )
     except ValueError:
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Please enter a valid number or ID."
+            text="Please enter a valid or ID."
         )
 
 
 async def remove_all_alarms(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     logger.info(f"ChatID: {chat_id} - remove_all_alarms")
-    jobs = scheduler.scheduler.get_jobs()
-    for job in jobs:
-        if chat_id == job.args[0] and job.id != "weatheralarmscheduler":
-            job.remove()
-
+    database.remove_all_alarm(chat_id)
     await context.bot.send_message(
         chat_id=chat_id,
         text="All alarms have been cleared."
     )
+
+
+async def process_alarm_notification(context: ContextTypes.DEFAULT_TYPE):
+    logger.info(f"alarm notification")
+    current_time = datetime.datetime.now().strftime("%H:%M")
+    chatids = database.get_alarm_by_time(current_time)
+    for chatid in chatids:
+        await print_notification(chatid['chatid'], context)

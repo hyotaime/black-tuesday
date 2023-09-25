@@ -161,3 +161,85 @@ def set_weather_noti_time(chatid, time):
     except Exception as e:
         logger.error(e)
 
+
+def set_alarm(chatid, time):
+    logger.info("set alarm")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                INSERT INTO btalarm(id, time, chatid) VALUES (%s, %s, %s)
+                '''
+                cur.execute(sql, (f"A{chatid}{time.replace(':', '')}", time, chatid))
+                logger.info("INSERT success")
+            conn.commit()
+    except Exception as e:
+        logger.error(e)
+
+
+def get_alarm(chatid):
+    logger.info("get alarm")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                SELECT id, time from btalarm WHERE chatid=%s
+                '''
+                cur.execute(sql, chatid)
+                results = cur.fetchall()
+                return results
+    except Exception as e:
+        logger.error(e)
+
+
+def get_alarm_by_time(time):
+    logger.info("get alarm")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                SELECT chatid from btalarm WHERE time=%s
+                '''
+                cur.execute(sql, time)
+                results = cur.fetchall()
+                return results
+    except Exception as e:
+        logger.error(e)
+
+
+def remove_alarm(id):
+    logger.info(f"delete alarm {id}")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                DELETE FROM btalarm WHERE id=%s
+                '''
+                cur.execute(sql, id)
+            conn.commit()
+    except Exception as e:
+        logger.error(e)
+
+
+def remove_all_alarm(chatid):
+    logger.info(f"delete alarm {chatid}")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                DELETE FROM btalarm WHERE chatid=%s
+                '''
+                cur.execute(sql, chatid)
+            conn.commit()
+    except Exception as e:
+        logger.error(e)
