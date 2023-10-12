@@ -44,8 +44,10 @@ async def process_npb(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
 async def process_npb_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     games = crawling.npb_now_crawling()
     message = ""
-    if not games:
-        message = "プロ野球の試合がありません。"
+    if games == "none" or not games:
+        message += "プロ野球の試合がありません。"
+    elif games == "error":
+        message += "エラーが発生しました。"
     else:
         for game in games:
             if game['status_info'] == '試合前':
