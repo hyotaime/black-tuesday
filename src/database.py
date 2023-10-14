@@ -22,7 +22,8 @@ def db_connection_test():
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                    SELECT * from botuser
+                    SELECT * 
+                    FROM user
                     '''
                 cur.execute(sql)
         logger.info("DB connection success")
@@ -39,13 +40,16 @@ def set_key(chat_id, key_value):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    INSERT INTO botuser(id, gptkey) VALUES (%s, %s)
+                    INSERT INTO user(id, gptkey) 
+                    VALUES (%s, %s)
                     '''
                     cur.execute(sql, (chat_id, key_value))
                     logger.info("INSERT success")
                 except pymysql.err.MySQLError:
                     sql = '''
-                    UPDATE botuser SET gptkey=%s WHERE id=%s
+                    UPDATE user 
+                    SET gptkey=%s 
+                    WHERE id=%s
                     '''
                     cur.execute(sql, (key_value, chat_id))
                     logger.info("UPDATE success")
@@ -63,7 +67,9 @@ def get_key(chat_id):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    SELECT gptkey from botuser WHERE id=%s
+                    SELECT gptkey 
+                    FROM user 
+                    WHERE id=%s
                     '''
                     cur.execute(sql, chat_id)
                     results = cur.fetchall()
@@ -83,13 +89,16 @@ def set_weather_location(chat_id, weather_nx: str, weather_ny: str):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    INSERT INTO botuser(id, w_nx, w_ny) VALUES (%s, %s, %s)
+                    INSERT INTO user(id, w_nx, w_ny) 
+                    VALUES (%s, %s, %s)
                     '''
                     cur.execute(sql, (chat_id, weather_nx, weather_ny))
                     logger.info("INSERT success")
                 except pymysql.err.MySQLError:
                     sql = '''
-                    UPDATE botuser SET w_nx=%s, w_ny=%s WHERE id=%s
+                    UPDATE user 
+                    SET w_nx=%s, w_ny=%s 
+                    WHERE id=%s
                     '''
                     cur.execute(sql, (weather_nx, weather_ny, chat_id))
                     logger.info("UPDATE success")
@@ -107,7 +116,9 @@ def get_weather_location(chat_id):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    SELECT w_nx, w_ny from botuser WHERE id=%s
+                    SELECT w_nx, w_ny 
+                    FROM user 
+                    WHERE id=%s
                     '''
                     cur.execute(sql, chat_id)
                     results = cur.fetchall()
@@ -127,7 +138,9 @@ def get_weather_noti_id(time):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    SELECT id from botuser WHERE w_time=%s
+                    SELECT id 
+                    FROM user 
+                    WHERE w_time=%s
                     '''
                     cur.execute(sql, time)
                     results = cur.fetchall()
@@ -147,13 +160,16 @@ def set_weather_noti_time(chatid, time):
             with conn.cursor() as cur:
                 try:
                     sql = '''
-                    INSERT INTO botuser(id, w_time) VALUES (%s, %s)
+                    INSERT INTO user(id, w_time) 
+                    VALUES (%s, %s)
                     '''
                     cur.execute(sql, (chatid, time))
                     logger.info("INSERT success")
                 except pymysql.err.MySQLError:
                     sql = '''
-                    UPDATE botuser SET w_time=%s WHERE id=%s
+                    UPDATE user 
+                    SET w_time=%s 
+                    WHERE id=%s
                     '''
                     cur.execute(sql, (time, chatid))
                     logger.info("UPDATE success")
@@ -170,7 +186,8 @@ def set_alarm(chatid, time):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                INSERT INTO btalarm(id, time, chatid) VALUES (%s, %s, %s)
+                INSERT INTO alarm(id, time, chatid) 
+                VALUES (%s, %s, %s)
                 '''
                 cur.execute(sql, (f"A{chatid}{time.replace(':', '')}", time, chatid))
                 logger.info("INSERT success")
@@ -187,7 +204,9 @@ def get_alarm(chatid):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                SELECT id, time from btalarm WHERE chatid=%s
+                SELECT id, time 
+                FROM alarm 
+                WHERE chatid=%s
                 '''
                 cur.execute(sql, chatid)
                 results = cur.fetchall()
@@ -204,7 +223,9 @@ def get_alarm_by_time(time):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                SELECT chatid from btalarm WHERE time=%s
+                SELECT chatid 
+                FROM alarm 
+                WHERE time=%s
                 '''
                 cur.execute(sql, time)
                 results = cur.fetchall()
@@ -221,7 +242,9 @@ def remove_alarm(id):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                DELETE FROM btalarm WHERE id=%s
+                DELETE 
+                FROM alarm 
+                WHERE id=%s
                 '''
                 cur.execute(sql, id)
             conn.commit()
@@ -237,7 +260,9 @@ def remove_all_alarm(chatid):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                DELETE FROM btalarm WHERE chatid=%s
+                DELETE 
+                FROM alarm 
+                WHERE chatid=%s
                 '''
                 cur.execute(sql, chatid)
             conn.commit()
