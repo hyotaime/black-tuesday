@@ -52,19 +52,19 @@ async def process_npb_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
         for game in games:
             if game['status_info'] == '試合前':
                 message += (f"{game['time']} {game['status_info']} {game['stadium']}\n"
-                            f"{game['away']}({game['away_starter']}) vs {game['home']}({game['home_starter']})\n\n")
+                            f"{game['home']}({game['home_starter']}) vs {game['away']}({game['away_starter']})\n\n")
             elif game['status_info'] == '試合終了':
-                if game['away_score'] > game['home_score']:
+                if game['away_score'] < game['home_score']:
                     message += (f"{game['status_info']} {game['stadium']}\n"
-                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
+                                f"{game['home']} {game['home_score']} : {game['away_score']} {game['away']} \n"
                                 f"(勝){game['winning_pitcher']}  (敗){game['losing_pitcher']}\n")
                     if game['save_pitcher'] != '-':
                         message += f"(S){game['save_pitcher']}\n\n"
                     else:
                         message += "\n"
-                elif game['away_score'] < game['home_score']:
+                elif game['away_score'] > game['home_score']:
                     message += (f"{game['status_info']} {game['stadium']}\n"
-                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n"
+                                f"{game['home']} {game['home_score']} : {game['away_score']} {game['away']} \n"
                                 f"(敗){game['losing_pitcher']}\t\t(勝){game['winning_pitcher']}\n")
                     if game['save_pitcher'] != '-':
                         message += f"               (S){game['save_pitcher']}\n\n"
@@ -72,10 +72,10 @@ async def process_npb_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
                         message += "\n"
                 else:
                     message += (f"{game['status_info']} {game['stadium']}\n"
-                                f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n")
+                                f"{game['home_score']} {game['home']} : {game['away_score']} {game['away']} \n")
             else:
                 message += (f"{game['status_info']} {game['stadium']}\n"
-                            f"{game['away']} {game['away_score']} : {game['home_score']} {game['home']}\n\n")
+                            f"{game['home']} {game['home_score']} : {game['away_score']} {game['away']} \n\n")
 
     await context.bot.send_message(
         chat_id=chat_id,
