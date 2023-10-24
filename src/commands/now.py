@@ -33,30 +33,50 @@ async def n(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await process_now_value(chat_id, context, ticker)
 
 
+# yfinance API info 404 issue
+# https://github.com/ranaroussi/yfinance/issues/1729
 async def process_now_value(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ticker: str):
     today = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    # try:
+    #     # Use yfinance
+    #     info = yf.Ticker(ticker).info
+    #     try:
+    #         rst = yf.download(ticker, start=today, end=today)
+    #         await context.bot.send_message(
+    #             chat_id=chat_id,
+    #             text=f"{info['longName']}({info['symbol']})\n"
+    #                  f"Current Price: {info['currency']}{info['currentPrice']}\n"
+    #                  f"Open: {rst['Open'][0]:.2f}\n"
+    #                  f"High: {rst['High'][0]:.2f}\n"
+    #                  f"Low: {rst['Low'][0]:.2f}\n"
+    #                  f"Close: {rst['Close'][0]:.2f}\n"
+    #                  f"Adj CLose: {rst['Adj Close'][0]:.2f}\n"
+    #                  f"Volume: {rst['Volume'][0]}\n"
+    #         )
+    #     except Exception:
+    #         await context.bot.send_message(
+    #             chat_id=chat_id,
+    #             text=f"{info['longName']}({info['symbol']})\n"
+    #                  f"Current Price: {info['currency']}{info['currentPrice']}\n"
+    #         )
+    # except Exception:
+    #     await context.bot.send_message(
+    #         chat_id=chat_id,
+    #         text="Can't find any result."
+    #     )
     try:
-        # Use yfinance
-        info = yf.Ticker(ticker).info
-        try:
-            rst = yf.download(ticker, start=today, end=today)
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"{info['longName']}({info['symbol']})\n"
-                     f"Current Price: {info['currency']}{info['currentPrice']}\n"
-                     f"Open: {rst['Open'][0]:.2f}\n"
-                     f"High: {rst['High'][0]:.2f}\n"
-                     f"Low: {rst['Low'][0]:.2f}\n"
-                     f"Close: {rst['Close'][0]:.2f}\n"
-                     f"Adj CLose: {rst['Adj Close'][0]:.2f}\n"
-                     f"Volume: {rst['Volume'][0]}\n"
-            )
-        except Exception:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"{info['longName']}({info['symbol']})\n"
-                     f"Current Price: {info['currency']}{info['currentPrice']}\n"
-            )
+        rst = yf.download(ticker, period='1d')
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=f"{ticker}\n"
+                 f"{str(rst.index[0]).rstrip(' 00:00:00')}\n"
+                 f"Open: {rst['Open'][0]:.2f}\n"
+                 f"High: {rst['High'][0]:.2f}\n"
+                 f"Low: {rst['Low'][0]:.2f}\n"
+                 f"Close: {rst['Close'][0]:.2f}\n"
+                 f"Adj CLose: {rst['Adj Close'][0]:.2f}\n"
+                 f"Volume: {rst['Volume'][0]}\n"
+        )
     except Exception:
         await context.bot.send_message(
             chat_id=chat_id,
