@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
-import urllib3
 
 
 def find_crawling(find_value):
@@ -349,7 +348,6 @@ def weather_crawling(nx, ny):
 
 
 def now_crawling(ticker):
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     ticker = ticker.upper()
     load_dotenv()
     NOW_URL = os.environ.get('NOW_URL')
