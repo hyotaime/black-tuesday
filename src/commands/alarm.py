@@ -17,7 +17,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if alarm_time == "":
         alarms = database.get_alarm(chat_id)
         if alarms:
-            alarm_list = "\n".join([f"{i + 1}. {alarm['time']}\n"
+            alarm_list = "\n".join([f"{i + 1}. {alarm['atime']}\n"
                                     f"ID: {alarm['id']}\n"
                                     f""
                                     for i, alarm in enumerate(alarms)])
@@ -78,7 +78,7 @@ async def remove_alarm(chat_id: int, context: ContextTypes.DEFAULT_TYPE, alarm_i
                     await context.bot.send_message(
                         chat_id=chat_id,
                         text=f"Alarm No.{alarm_identifier} has been removed.\n"
-                             f"{selected_alarm['time']}\n"
+                             f"{selected_alarm['atime']}\n"
                              f"(ID: {selected_alarm['id']})"
                     )
                     database.remove_alarm(selected_alarm['id'])
@@ -111,7 +111,7 @@ async def remove_alarm_by_id(chat_id: int, context: ContextTypes.DEFAULT_TYPE, a
         alarm_exists = False
         for alarm in alarm_list:
             if alarm['id'] == alarm_id:
-                alarm_time += alarm['time']
+                alarm_time += alarm['atime']
                 database.remove_alarm(alarm_id)
                 await context.bot.send_message(
                     chat_id=chat_id,

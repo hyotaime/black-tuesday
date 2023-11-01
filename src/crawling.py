@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
+import urllib3
 
 
 def find_crawling(find_value):
@@ -345,3 +346,21 @@ def weather_crawling(nx, ny):
         elif 54 <= i < 60:
             data[i % 6][8] = item['fcstValue']
     return today, data
+
+
+def now_crawling(ticker):
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    ticker = ticker.upper()
+    load_dotenv()
+    NOW_URL = os.environ.get('NOW_URL')
+    NOW_MODULE1 = os.environ.get('NOW_MODULE1')
+    NOW_MODULE2 = os.environ.get('NOW_MODULE2')
+    NOW_MODULE3 = os.environ.get('NOW_MODULE3')
+    NOW_MODULE4 = os.environ.get('NOW_MODULE4')
+    NOW_CRUMB = os.environ.get('NOW_CRUMB')
+    NOW_COOKIE = os.environ.get('NOW_COOKIE')
+    params = f"?crumb={NOW_CRUMB}&modules={NOW_MODULE1}%2C{NOW_MODULE2}%2C{NOW_MODULE3}%2C{NOW_MODULE4}&period=1d&ssl=true"
+    url = f"{NOW_URL}{ticker}{params}"
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36", "Cookie": NOW_COOKIE}
+    response = requests.get(url, headers=headers).json()['quoteSummary']['result']
+    return response

@@ -31,6 +31,34 @@ def db_connection_test():
         logger.error(e)
 
 
+def start_chat(chat_id):
+    logger.info("start chat")
+    DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
+    try:
+        with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
+                             db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
+            with conn.cursor() as cur:
+                sql = '''
+                    SELECT id
+                    FROM user
+                    WHERE id=%s
+                    '''
+                cur.execute(sql, chat_id)
+                results = cur.fetchall()
+                if len(results) == 0:
+                    sql = '''
+                        INSERT INTO user(id)
+                        VALUES (%s)
+                        '''
+                    cur.execute(sql, chat_id)
+                    conn.commit()
+                    logger.info(f"{chat_id} INSERT success")
+                else:
+                    logger.info(f"{chat_id} Already exist")
+    except Exception as e:
+        logger.error(e)
+
+
 def set_key(chat_id, key_value):
     logger.info("set key")
     DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
@@ -38,22 +66,14 @@ def set_key(chat_id, key_value):
         with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
-                try:
-                    sql = '''
-                    INSERT INTO user(id, gptkey) 
-                    VALUES (%s, %s)
-                    '''
-                    cur.execute(sql, (chat_id, key_value))
-                    logger.info("INSERT success")
-                except pymysql.err.MySQLError:
-                    sql = '''
-                    UPDATE user 
-                    SET gptkey=%s 
-                    WHERE id=%s
-                    '''
-                    cur.execute(sql, (key_value, chat_id))
-                    logger.info("UPDATE success")
-                conn.commit()
+                sql = '''
+                UPDATE user 
+                SET gptkey=%s 
+                WHERE id=%s
+                '''
+                cur.execute(sql, (key_value, chat_id))
+                logger.info("UPDATE gptkey success")
+            conn.commit()
     except Exception as e:
         logger.error(e)
 
@@ -87,22 +107,14 @@ def set_weather_location(chat_id, weather_nx: str, weather_ny: str):
         with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
-                try:
-                    sql = '''
-                    INSERT INTO user(id, w_nx, w_ny) 
-                    VALUES (%s, %s, %s)
-                    '''
-                    cur.execute(sql, (chat_id, weather_nx, weather_ny))
-                    logger.info("INSERT success")
-                except pymysql.err.MySQLError:
-                    sql = '''
-                    UPDATE user 
-                    SET w_nx=%s, w_ny=%s 
-                    WHERE id=%s
-                    '''
-                    cur.execute(sql, (weather_nx, weather_ny, chat_id))
-                    logger.info("UPDATE success")
-                conn.commit()
+                sql = '''
+                UPDATE user 
+                SET w_nx=%s, w_ny=%s 
+                WHERE id=%s
+                '''
+                cur.execute(sql, (weather_nx, weather_ny, chat_id))
+                logger.info("UPDATE location success")
+            conn.commit()
     except Exception as e:
         logger.error(e)
 
@@ -158,22 +170,14 @@ def set_weather_noti_time(chatid, time):
         with pymysql.connect(host=DB_HOST, user=DB_USERNAME, password=DB_PASSWORD, port=int(DB_PORT),
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
-                try:
-                    sql = '''
-                    INSERT INTO user(id, w_time) 
-                    VALUES (%s, %s)
-                    '''
-                    cur.execute(sql, (chatid, time))
-                    logger.info("INSERT success")
-                except pymysql.err.MySQLError:
-                    sql = '''
-                    UPDATE user 
-                    SET w_time=%s 
-                    WHERE id=%s
-                    '''
-                    cur.execute(sql, (time, chatid))
-                    logger.info("UPDATE success")
-                conn.commit()
+                sql = '''
+                UPDATE user 
+                SET w_time=%s 
+                WHERE id=%s
+                '''
+                cur.execute(sql, (time, chatid))
+                logger.info("UPDATE weather noti time success")
+            conn.commit()
     except Exception as e:
         logger.error(e)
 
@@ -186,7 +190,7 @@ def set_alarm(chatid, time):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                INSERT INTO alarm(id, time, chatid) 
+                INSERT INTO alarm(id, atime, chatid) 
                 VALUES (%s, %s, %s)
                 '''
                 cur.execute(sql, (f"A{chatid}{time.replace(':', '')}", time, chatid))
@@ -204,7 +208,7 @@ def get_alarm(chatid):
                              db=DB_NAME, charset="utf8", cursorclass=pymysql.cursors.DictCursor) as conn:
             with conn.cursor() as cur:
                 sql = '''
-                SELECT id, time 
+                SELECT id, atime 
                 FROM alarm 
                 WHERE chatid=%s
                 '''
@@ -225,7 +229,7 @@ def get_alarm_by_time(time):
                 sql = '''
                 SELECT chatid 
                 FROM alarm 
-                WHERE time=%s
+                WHERE atime=%s
                 '''
                 cur.execute(sql, time)
                 results = cur.fetchall()
