@@ -16,7 +16,7 @@ The current latest version is **[v1.0-beta2](https://github.com/hyotaime/black-t
 ___
 ## Commands
 * `/start` - Start the bot<br><img width="616" alt="start" src="https://github.com/hyotaime/black-tuesday/assets/109580929/72389170-4a70-46f0-a885-4f18619b8716">
-* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/54ea7653-9fde-4b63-8d42-681a26f3c230">
+* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/b0251d00-4a96-4894-8167-3279e336699b">
 * `/alarm` - Show alarm list<br><img width="488" alt="alarm" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1ce3985-c573-4580-8acc-be590c50b0cb"><br><img width="488" alt="alarm_list" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ce630eb4-1699-438f-9594-5528cc5bbccf">
   * `/alarm [alarm time]` - Set an alarm at the specified time<br><img width="488" alt="alarm_time" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d2b32082-2deb-48b5-bdf1-b21ce916afea">
   * `/alarm [alarm index]` - Remove the alarm at the specified index<br><img width="488" alt="alarm_index" src="https://github.com/hyotaime/black-tuesday/assets/109580929/643f0e20-1baf-461c-8bd5-e55375568941">
