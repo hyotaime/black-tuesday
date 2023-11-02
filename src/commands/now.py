@@ -60,11 +60,11 @@ async def process_now_value(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ti
                     chat_id=chat_id,
                     text=f"{time} {currency}\n"
                          f"{name} ({symbol})\n"
-                         f"Current Price: {current_price[:-3]}\n"
-                         f"Open: {open_price[:-3]}\n"
-                         f"High: {high_price[:-3]}\n"
-                         f"Low: {low_price[:-3]}\n"
-                         f"Previous Close: {previous_close_price[:-3]}\n"
+                         f"Current Price: {current_price.replace('.00', '')}\n"
+                         f"Open: {open_price.replace('.00', '')}\n"
+                         f"High: {high_price.replace('.00', '')}\n"
+                         f"Low: {low_price.replace('.00', '')}\n"
+                         f"Previous Close: {previous_close_price.replace('.00', '')}\n"
                          f"Volume: {volume}\n"
                 )
             else:
