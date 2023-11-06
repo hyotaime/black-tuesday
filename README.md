@@ -54,6 +54,7 @@ ___
   * [`help.py`](src/commands/help.py) - Help command module
   * [`kbo.py`](src/commands/kbo.py) - KBO command module
   * [`now.py`](src/commands/now.py) - Now command module
+  * [`npb.py`](src/commands/npb.py) - NPB command module
   * [`search.py`](src/commands/search.py) - Search command module
   * [`start.py`](src/commands/start.py) - Start command module
   * [`weather.py`](src/commands/weather.py) - Weather command module
