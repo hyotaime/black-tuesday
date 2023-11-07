@@ -37,7 +37,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         else:
             await process_gpt(chat_id, context, ask_value)
-    except openai.error.OpenAIError as e:
+    except openai.OpenAIError as e:
         await context.bot.send_message(
             chat_id=chat_id,
             text="An error occurred while using the OpenAI API: " + str(e)
@@ -66,6 +66,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_value: str):
+    client = openai.OpenAI()
     content = ask_value
 
     if chat_id not in _gpt_chat:
@@ -73,7 +74,7 @@ async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_valu
 
     _gpt_chat[chat_id].append({"role": "user", "content": content})
 
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=_gpt_chat[chat_id]
     )
