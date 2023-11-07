@@ -66,7 +66,6 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_value: str):
-    client = openai.OpenAI()
     content = ask_value
 
     if chat_id not in _gpt_chat:
@@ -74,7 +73,7 @@ async def process_gpt(chat_id: int, context: ContextTypes.DEFAULT_TYPE, ask_valu
 
     _gpt_chat[chat_id].append({"role": "user", "content": content})
 
-    completion = client.chat.completions.create(
+    completion = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=_gpt_chat[chat_id]
     )
