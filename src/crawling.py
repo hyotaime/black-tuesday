@@ -8,9 +8,11 @@ from dotenv import load_dotenv
 def find_crawling(find_value):
     # https://github.com/yashwanth2804/TickerSymbol
     # Using tickersearch API By Yashwanth2804
+    load_dotenv()
+    USER_AGENT = os.environ.get('USER_AGENT')
     url = "https://ticker-2e1ica8b9.now.sh//keyword/" + find_value
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+        "User-Agent": USER_AGENT
     }
 
     response = requests.get(url, headers=headers)
@@ -26,8 +28,10 @@ def find_crawling(find_value):
 
 def search_crawling(search_value):
     # Set the headers to mimic a web browser
+    load_dotenv()
+    USER_AGENT = os.environ.get('USER_AGENT')
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+        "User-Agent": USER_AGENT
     }
     url = "https://www.google.com/search?q=" + search_value
     # Send a GET request to the Google search URL with the query parameter
@@ -59,8 +63,9 @@ def search_crawling(search_value):
 def kbo_crawling():
     load_dotenv()
     url = os.environ.get('KBO_URL')
+    USER_AGENT = os.environ.get('USER_AGENT')
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+        "User-Agent": USER_AGENT
     }
 
     # 주어진 URL에 GET 요청 보내기
@@ -103,8 +108,10 @@ def kbo_now_crawling():
     # 국내 야구
     load_dotenv()
     url = os.environ.get('KBO_NOW_URL')
+    USER_AGENT = os.environ.get('USER_AGENT')
+
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+        "User-Agent": USER_AGENT
     }
     response = requests.get(url, headers=headers).json()
 
@@ -138,8 +145,9 @@ def npb_crawling():
     # 日本野球
     load_dotenv()
     url = os.environ.get('NPB_URL')
+    USER_AGENT = os.environ.get('USER_AGENT')
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+        "User-Agent": USER_AGENT
     }
 
     # 주어진 URL에 GET 요청 보내기
@@ -183,10 +191,11 @@ def npb_crawling():
 def npb_now_crawling():
     # 日本野球
     load_dotenv()
+    USER_AGENT = os.environ.get('USER_AGENT')
     try:
         url = os.environ.get('NPB_NOW_URL')
         headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+            "User-Agent": USER_AGENT
         }
         response = requests.get(url, headers=headers)
         soup = BeautifulSoup(response.content, "html.parser")
@@ -350,6 +359,7 @@ def weather_crawling(nx, ny):
 def now_crawling(ticker):
     ticker = ticker.upper()
     load_dotenv()
+    USER_AGENT = os.environ.get('USER_AGENT')
     NOW_URL = os.environ.get('NOW_URL')
     NOW_MODULE1 = os.environ.get('NOW_MODULE1')
     NOW_MODULE2 = os.environ.get('NOW_MODULE2')
@@ -359,6 +369,6 @@ def now_crawling(ticker):
     NOW_COOKIE = os.environ.get('NOW_COOKIE')
     params = f"?crumb={NOW_CRUMB}&modules={NOW_MODULE1}%2C{NOW_MODULE2}%2C{NOW_MODULE3}%2C{NOW_MODULE4}&period=1d&ssl=true"
     url = f"{NOW_URL}{ticker}{params}"
-    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36", "Cookie": NOW_COOKIE}
+    headers = {"User-Agent": USER_AGENT, "Cookie": NOW_COOKIE}
     response = requests.get(url, headers=headers).json()['quoteSummary']['result']
     return response
