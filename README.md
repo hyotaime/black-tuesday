@@ -60,5 +60,18 @@ ___
   * [`weather.py`](src/commands/weather.py) - Weather command module
 * [`requirements.txt`](requirements.txt) - Packages required to run the bot
 ___
+## Reference
+* Telegram Bot
+  * [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot)
+* Weather API (Meteorological Administration_Short-Term Forecast) for `/weather`
+  * [Korea public data portal](https://www.data.go.kr/data/15084084/openapi.do)
+  * [Usage of Weather API](https://github.com/az0t0/discord-seoultechbot/blob/main/src/weather.py)
+* ChatGPT API for `/gpt`
+  * [OpenAI API Reference Document](https://platform.openai.com/docs/api-reference)
+* Ticker Search API for `/find`
+  * [yashwanth2804's Ticker Search API](https://github.com/yashwanth2804/TickerSymbol)
+* Yahoo Finance API for `/now`
+  * Found the way to get information of the stock in the process of solving [yfinance issue #1729](https://github.com/ranaroussi/yfinance/issues/1729)
+___
 ## License
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
