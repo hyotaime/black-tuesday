@@ -34,7 +34,7 @@ ___
 * `/npb` - Show NPB league table<br><img width="488" alt="npb" src="https://github.com/hyotaime/black-tuesday/assets/109580929/59d819d5-22a2-4517-b75b-d1a34c87899e">
 * `/npbnow` - Show today's NPB game schedule<br><img width="488" alt="npbnow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/015697eb-c4a6-4e25-a47b-7ba8acffea8e">
 * `/gpt [ask value]` - Ask anything to chatGPT<br><img width="488" alt="gpt" src="https://github.com/hyotaime/black-tuesday/assets/109580929/582bac8d-703f-4a1a-b6c7-2cdc954506a1">
-* `/gptkeyset [gpt API key]` - Set the API key for chatGPT<br><img width="488" alt="gptkeyset" src="https://github.com/hyotaime/black-tuesday/assets/109580929/32cfdda5-8edf-4b8c-99cf-df992cfc25fd">
+* `/gptkeyset [gpt API key]` - Set the API key for chatGPT<br><img width="488" alt="gptkeyset" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ca14510b-fa47-4153-85a7-2ef1e5fef3a2">
 * `/find [find value]` - Search stock ticker with company name<br><img width="488" alt="find" src="https://github.com/hyotaime/black-tuesday/assets/109580929/64626745-e52e-42e1-9373-82cd02b8b07b">
 * `/now [stock ticker]` - Show real time price of the stock<br><img width="488" alt="now" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e82d381e-467f-4cfc-9d3a-15f2d65cc3ff">
 ___
