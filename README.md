@@ -1,4 +1,13 @@
 # black-T.U.E.S.D.A.Y
+![Python](https://img.shields.io/badge/python-3.11-3670A0?logo=python&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
+![Python-Telegram-Bot](https://img.shields.io/badge/python--telegram--bot-blue?logo=pypi&logoColor=white)
+![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-000000?logo=OpenAI&logoColor=white)
+![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?logo=openai&logoColor=white)
+![Yahoo!](https://img.shields.io/badge/Yahoo!-6001D2?logo=Yahoo!&logoColor=white)
+![Korea public data portal](https://img.shields.io/badge/Korea_public_data_portal-blue)
+
 Telegram-bot Ultimately Essential Service Definitively Assist You
 
 <img width="200" height="200" alt="bt-profile" src="https://github.com/hyotaime/black-tuesday/assets/109580929/9210d736-a41a-4749-83b9-1f43c3401ee3"/>
