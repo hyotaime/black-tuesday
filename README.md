@@ -1,7 +1,7 @@
 # black-T.U.E.S.D.A.Y
 ![Python](https://img.shields.io/badge/python-3.11-3670A0?logo=python&logoColor=white)
-![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
 ![Python-Telegram-Bot](https://img.shields.io/badge/python--telegram--bot-blue?logo=pypi&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-000000?logo=OpenAI&logoColor=white)
 ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?logo=openai&logoColor=white)
