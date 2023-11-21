@@ -7,6 +7,8 @@
 ![ChatGPT](https://img.shields.io/badge/chatGPT-74aa9c?logo=openai&logoColor=white)
 ![Yahoo!](https://img.shields.io/badge/Yahoo!-6001D2?logo=Yahoo!&logoColor=white)
 ![Korea public data portal](https://img.shields.io/badge/Korea_public_data_portal-blue)
+![License](https://img.shields.io/badge/license-GPLv3.0-orange)
+
 
 Telegram-bot Ultimately Essential Service Definitively Assist You
 
