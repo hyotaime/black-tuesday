@@ -1,11 +1,11 @@
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 import os
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
 from commands import start, help, find, now, gpt, alarm, search, kbo, weather, npb
 import log
 import database
-import scheduler
 
 # 토큰 읽기
 load_dotenv()
@@ -18,9 +18,10 @@ if __name__ == '__main__':
     log.logger.addHandler(log.stream_handler)
     application = ApplicationBuilder().token(BOT_TOKEN).build()
     database.db_connection_test()
-    scheduler.scheduler.start()
-    scheduler.scheduler.add_job(weather.process_weather_notification, 'cron', second=0, args=(application, ), id='wscheduler')
-    scheduler.scheduler.add_job(alarm.process_alarm_notification, 'cron', second=0, args=(application, ), id='ascheduler')
+    scheduler = AsyncIOScheduler()
+    scheduler.start()
+    scheduler.add_job(weather.process_weather_notification, 'cron', second=0, args=(application, ), id='wscheduler')
+    scheduler.add_job(alarm.process_alarm_notification, 'cron', second=0, args=(application, ), id='ascheduler')
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
