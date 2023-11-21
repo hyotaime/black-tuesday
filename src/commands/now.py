@@ -14,7 +14,7 @@ async def now(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if ticker == "":
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Please enter the ticker.\ne.g.)\t/now AAPL"
+            text="Please enter the ticker.\ne.g.) /now AAPL"
         )
     else:
         await process_now_value(chat_id, context, ticker)
@@ -28,7 +28,7 @@ async def n(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if ticker == "":
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Please enter the ticker.\ne.g.)\t/n AAPL"
+            text="Please enter the ticker.\ne.g.) /n AAPL"
         )
     else:
         await process_now_value(chat_id, context, ticker)

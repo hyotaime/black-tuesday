@@ -13,7 +13,7 @@ async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(
             chat_id=chat_id,
             text="Please enter your search value.\n"
-                 "e.g.)\t/find Apple"
+                 "e.g.) /find Apple"
         )
     else:
         await process_find_value(chat_id, context, search_value)
@@ -28,7 +28,7 @@ async def f(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(
             chat_id=chat_id,
             text="Please enter your search value.\n"
-                 "e.g.)\t/f Apple"
+                 "e.g.) /f Apple"
         )
     else:
         await process_find_value(chat_id, context, search_value)

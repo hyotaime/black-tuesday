@@ -30,7 +30,7 @@ async def alarm(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_id=chat_id,
                 text="There are no scheduled alarms.\n"
                      "Please enter your alarm time(00:00~23:59).\n"
-                     "e.g.)\t/alarm 09:30"
+                     "e.g.) /alarm 09:30"
             )
     elif alarm_time == "all":
         await remove_all_alarms(chat_id, context)

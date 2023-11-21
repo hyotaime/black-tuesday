@@ -14,7 +14,7 @@ async def search(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(
             chat_id=chat_id,
             text="Please enter your search value.\n"
-                 "e.g.)\t/search banana"
+                 "e.g.) /search banana"
         )
     else:
         await process_search_value(chat_id, context, search_value)
