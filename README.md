@@ -8,7 +8,6 @@
 ![Korea public data portal](https://img.shields.io/badge/Korea_public_data_portal-blue)
 ![License](https://img.shields.io/badge/license-GPLv3.0-orange)
 
-
 Telegram-bot Ultimately Essential Service Definitively Assist You
 
 <img width="200" height="200" alt="bt-profile" src="https://github.com/hyotaime/black-tuesday/assets/109580929/9210d736-a41a-4749-83b9-1f43c3401ee3"/>
