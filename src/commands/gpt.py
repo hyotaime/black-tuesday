@@ -1,3 +1,6 @@
+import sys
+sys.path.append('/btbot')
+
 from telegram import Update
 from telegram.ext import ContextTypes
 from src.log import logger
@@ -11,7 +14,7 @@ openai.api_key = None
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     logger.info(f"ChatID: {chat_id} - gpt")
-    openai.api_key = database.get_key(chat_id)
+    openai.api_key = database.get_gpt_key(chat_id)
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     ask_value = update.message.text.replace('/gpt', '').replace('@black_tuesday_bot', '').strip()
     try:
@@ -50,7 +53,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 입력 메시지에서 '/gpt'를 제외한 텍스트 추출
     key_value = update.message.text.replace('/gptkeyset', '').replace('@black_tuesday_bot', '').strip()
     if key_value == "":
-        key_value = database.get_key(chat_id)
+        key_value = database.get_gpt_key(chat_id)
         await context.bot.send_message(
             chat_id=chat_id,
             text="Set or Change your Openai API key.\n"
@@ -58,7 +61,7 @@ async def gpt_key_set(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  f"Your current key is \"{key_value}\""
         )
     else:
-        database.set_key(chat_id, key_value)
+        database.set_gpt_key(chat_id, key_value)
         await context.bot.send_message(
             chat_id=chat_id,
             text=f"Your ChatGPT API key is set to \"{key_value}\""
