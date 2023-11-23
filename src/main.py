@@ -1,5 +1,5 @@
 import sys
-sys.path.append('..')
+sys.path.append('/btbot')
 
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder

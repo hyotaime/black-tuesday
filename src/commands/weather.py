@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 from telegram import Update
 from telegram.ext import ContextTypes
 from src.log import logger

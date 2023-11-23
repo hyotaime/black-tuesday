@@ -1,6 +1,3 @@
-import sys
-sys.path.append('..')
-
 import pymysql
 from log import logger
 from dotenv import load_dotenv
