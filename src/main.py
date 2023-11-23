@@ -1,9 +1,12 @@
+import sys
+sys.path.append('..')
+
 import telegram as tel
 from telegram.ext import CommandHandler, ApplicationBuilder
 import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
-from commands import start, help, find, now, gpt, alarm, search, kbo, weather, npb
+from commands import start, help, find, now, gpt, alarm, search, kbo, weather, npb, boj
 from src import database, log
 
 # 토큰 읽기
@@ -21,6 +24,7 @@ if __name__ == '__main__':
     scheduler.start()
     scheduler.add_job(weather.process_weather_notification, 'cron', second=0, args=(application, ), id='wscheduler')
     scheduler.add_job(alarm.process_alarm_notification, 'cron', second=0, args=(application, ), id='ascheduler')
+    scheduler.add_job(boj.process_boj_notification, 'cron', second=0, args=(application, ), id='bscheduler')
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
@@ -63,5 +67,8 @@ if __name__ == '__main__':
     application.add_handler(weather_handler)
     setloc_handler = CommandHandler('setloc', weather.weather_set_loc)
     application.add_handler(setloc_handler)
+
+    boj_handler = CommandHandler('boj', boj.boj)
+    application.add_handler(boj_handler)
 
     application.run_polling()

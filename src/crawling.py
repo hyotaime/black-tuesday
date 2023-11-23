@@ -212,7 +212,9 @@ def npb_now_crawling():
                 time = time.replace("見どころ", "").replace("スタメン", "").strip()
             else:
                 time = '-'
-                score = game.find_all("p", class_="bb-scheduleTable__score")[0].get_text().strip().replace(" ", "").replace("\n", "")
+                score = game.find_all("p", class_="bb-scheduleTable__score")[0].get_text().strip().replace(" ",
+                                                                                                           "").replace(
+                    "\n", "")
             away_score = score.split("-")[1]
             home_score = score.split("-")[0]
             status = game.find_all("p", class_="bb-scheduleTable__status")[0].get_text().strip()
@@ -222,22 +224,34 @@ def npb_now_crawling():
             lose_pitcher = "-"
             save_pitcher = "-"
             if status == "見どころ":
-                home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[0].get_text().strip()
-                away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[1].get_text().strip()
+                home_starter = \
+                game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[
+                    0].get_text().strip()
+                away_starter = \
+                game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[
+                    1].get_text().strip()
             elif status == "スタメン":
-                home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[0].get_text().strip()
-                away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[1].get_text().strip()
+                home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[
+                    0].get_text().strip()
+                away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[
+                    1].get_text().strip()
             elif status == "試合終了":
-                win_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--win")[0].get_text().strip()
-                lose_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--lose")[0].get_text().strip()
+                win_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--win")[
+                    0].get_text().strip()
+                lose_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--lose")[
+                    0].get_text().strip()
                 try:
-                    save_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--save")[0].get_text().strip()
+                    save_pitcher = \
+                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--save")[
+                        0].get_text().strip()
                 except IndexError:
                     save_pitcher = "-"
             if status == "見どころ" or status == "スタメン":
                 status = "試合前"
-            result = {'time': '-', 'away': '-', 'away_score': '-', 'home': '-', 'home_score': '-', 'stadium': '-', 'status_info': '-',
-                      'home_starter': '-', 'away_starter': '-', 'winning_pitcher': '-', 'losing_pitcher': '-', 'save_pitcher': '-'}
+            result = {'time': '-', 'away': '-', 'away_score': '-', 'home': '-', 'home_score': '-', 'stadium': '-',
+                      'status_info': '-',
+                      'home_starter': '-', 'away_starter': '-', 'winning_pitcher': '-', 'losing_pitcher': '-',
+                      'save_pitcher': '-'}
             result.update({
                 'time': time,
                 'away': away,
@@ -372,3 +386,16 @@ def now_crawling(ticker):
     headers = {"User-Agent": USER_AGENT, "Cookie": NOW_COOKIE}
     response = requests.get(url, headers=headers).json()['quoteSummary']['result']
     return response
+
+
+def solved_crawling(user):
+    load_dotenv()
+    USER_AGENT = os.environ.get('USER_AGENT')
+    url = f"https://solved.ac/api/v3/user/grass?handle={user}&topic=default"
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Accept": "application/json"
+    }
+    response = requests.get(url, headers=headers)
+    data = response.json()['grass']
+    return data

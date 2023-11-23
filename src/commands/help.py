@@ -25,4 +25,5 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
              "/gptkeyset - Set your chatGPT API key\n"
              "/find - Search stock ticker with company name\n"
              "/now - Show real time price of the stock\n"
+             "/boj - BOJ(Solved.ac) streak reminder\n"
     )
