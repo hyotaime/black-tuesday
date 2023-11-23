@@ -5,6 +5,7 @@
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
 ![OpenAI](https://img.shields.io/badge/OpenAI-000000?logo=OpenAI&logoColor=white)
 ![Yahoo!](https://img.shields.io/badge/Yahoo!-6001D2?logo=Yahoo!&logoColor=white)
+![Solved.ac](https://img.shields.io/badge/Solved.ac-brightgreen)
 ![Korea public data portal](https://img.shields.io/badge/Korea_public_data_portal-blue)
 ![License](https://img.shields.io/badge/license-GPLv3.0-orange)
 
@@ -46,6 +47,7 @@ ___
 * `/gptkeyset [gpt API key]` - Set the API key for chatGPT<br><img width="488" alt="gptkeyset" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ca14510b-fa47-4153-85a7-2ef1e5fef3a2">
 * `/find [find value]` - Search stock ticker with company name<br><img width="488" alt="find" src="https://github.com/hyotaime/black-tuesday/assets/109580929/64626745-e52e-42e1-9373-82cd02b8b07b">
 * `/now [stock ticker]` - Show real time price of the stock<br><img width="488" alt="now" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e82d381e-467f-4cfc-9d3a-15f2d65cc3ff">
+* `/boj` - BOJ(Solved.ac) streak reminder<br><img width="488" alt="boj" src="https://github.com/hyotaime/black-tuesday/assets/109580929/8d3c6475-e3fb-490e-9282-2362ef935c2a">
 ___
 ## Bug Report
 If you find a bug, please report it in the Issues with **specific time** and **command** to let me know.
@@ -58,6 +60,7 @@ ___
 * [`crawling.py`](src/crawling.py) - Crawling module
 * [`commands`](src/commands) directory
   * [`alarm.py`](src/commands/alarm.py) - Alarm command module
+  * [`boj.py`](src/commands/boj.py) - BOJ command module
   * [`find.py`](src/commands/find.py) - Find command module
   * [`gpt.py`](src/commands/gpt.py) - GPT command module
   * [`help.py`](src/commands/help.py) - Help command module
@@ -77,6 +80,9 @@ ___
   * [Usage of Weather API](https://github.com/az0t0/discord-seoultechbot/blob/main/src/weather.py)
 * ChatGPT API for `/gpt`
   * [OpenAI API Reference Document](https://platform.openai.com/docs/api-reference)
+* Unofficial Solved.ac API for `/boj`
+  * [Unofficial Solved.ac API](https://solvedac.github.io/unofficial-documentation/#/)
+  * [Github - solvedac/unofficial-documentation](https://github.com/solvedac/unofficial-documentation)
 * Ticker Search API for `/find`
   * [yashwanth2804's Ticker Search API](https://github.com/yashwanth2804/TickerSymbol)
 * Yahoo Finance API for `/now`
