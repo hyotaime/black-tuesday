@@ -116,19 +116,8 @@ async def process_weather_notification(context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_set_weather_notification(chat_id, context: ContextTypes.DEFAULT_TYPE, alarm_time: str):
-    weather_noti_exist = False
-    weather_noti_lists = database.get_weather_noti_id(alarm_time)
-    for weather_noti_list in weather_noti_lists:
-        if weather_noti_list['id'] == chat_id:
-            await context.bot.send_message(
-                chat_id=chat_id,
-                text=f"Weather Notification in {alarm_time} is already exist."
-            )
-            weather_noti_exist = True
-            break
-    if not weather_noti_exist:
-        database.set_weather_noti_time(chat_id, alarm_time)
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text="Weather Notification is set to " + alarm_time + ".\n"
-        )
+    database.set_weather_noti_time(chat_id, alarm_time)
+    await context.bot.send_message(
+        chat_id=chat_id,
+        text="Weather Notification is set to " + alarm_time + ".\n"
+    )
