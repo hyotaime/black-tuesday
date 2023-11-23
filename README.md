@@ -47,7 +47,7 @@ ___
 * `/gptkeyset [gpt API key]` - Set the API key for chatGPT<br><img width="488" alt="gptkeyset" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ca14510b-fa47-4153-85a7-2ef1e5fef3a2">
 * `/find [find value]` - Search stock ticker with company name<br><img width="488" alt="find" src="https://github.com/hyotaime/black-tuesday/assets/109580929/64626745-e52e-42e1-9373-82cd02b8b07b">
 * `/now [stock ticker]` - Show real time price of the stock<br><img width="488" alt="now" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e82d381e-467f-4cfc-9d3a-15f2d65cc3ff">
-* `/boj` - BOJ(Solved.ac) streak reminder<br><img width="488" alt="boj" src="https://github.com/hyotaime/black-tuesday/assets/109580929/8d3c6475-e3fb-490e-9282-2362ef935c2a">
+* `/boj` - BOJ([Solved.ac](https://solved.ac/)) streak reminder<br><img width="488" alt="boj" src="https://github.com/hyotaime/black-tuesday/assets/109580929/8d3c6475-e3fb-490e-9282-2362ef935c2a">
 ___
 ## Bug Report
 If you find a bug, please report it in the Issues with **specific time** and **command** to let me know.
