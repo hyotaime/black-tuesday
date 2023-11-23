@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from log import logger
+from src.log import logger
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):

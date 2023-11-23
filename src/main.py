@@ -4,8 +4,7 @@ import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
 from commands import start, help, find, now, gpt, alarm, search, kbo, weather, npb
-import log
-import database
+from src import database, log
 
 # 토큰 읽기
 load_dotenv()

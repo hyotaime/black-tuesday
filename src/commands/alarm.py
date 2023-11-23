@@ -1,7 +1,8 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from log import logger
-import database, datetime
+from src.log import logger
+from src import database
+import datetime
 import re
 
 

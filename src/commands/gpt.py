@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from log import logger
-import database
+from src.log import logger
+from src import database
 import openai
 
 _gpt_chat = {}
