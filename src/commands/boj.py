@@ -33,7 +33,7 @@ async def boj(update: Update, context: ContextTypes.DEFAULT_TYPE):
         database.set_boj_noti_time(chat_id, None)
         await context.bot.send_message(
             chat_id=chat_id,
-            text="Weather Notification is turned off."
+            text="BOJ Streak Reminder is turned off."
         )
     else:
         await process_boj_setting(chat_id, context, handle_or_alert_time)
@@ -79,7 +79,7 @@ async def process_boj_setting(chat_id: int, context: ContextTypes.DEFAULT_TYPE, 
             database.set_boj_noti_time(chat_id, noti_time)
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"BOJ Notification is set to \"{noti_time}\".\n"
+                text=f"BOJ Streak Reminder is set to \"{noti_time}\".\n"
             )
         except ValueError:
             await context.bot.send_message(
@@ -103,7 +103,7 @@ async def process_boj_setting(chat_id: int, context: ContextTypes.DEFAULT_TYPE, 
 
 
 async def process_boj_notification(context: ContextTypes.DEFAULT_TYPE):
-    logger.info(f"boj notification")
+    logger.info(f"BOJ Streak Reminder")
     current_time = datetime.datetime.now().strftime("%H:%M")
     chatids = database.get_boj_noti_id(current_time)
     if chatids is not None:
