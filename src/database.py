@@ -108,7 +108,7 @@ def get_gpt_key(chat_id):
         logger.error(e)
 
 
-def set_weather_location(chat_id, weather_nx: str, weather_ny: str):
+def set_weather_location(chat_id, weather_nx: int, weather_ny: int):
     logger.info("set weather_job_id")
     DB_HOST, DB_USERNAME, DB_PASSWORD, DB_PORT, DB_NAME = get_secure_info()
     try:

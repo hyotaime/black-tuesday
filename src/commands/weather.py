@@ -52,13 +52,22 @@ async def weather_set_loc(update: Update, context: ContextTypes.DEFAULT_TYPE):
                  f"Your current key is ({nx, ny})"
         )
     else:
-        nx = weather_location.split(' ')[0]
-        ny = weather_location.split(' ')[1]
-        database.set_weather_location(chat_id, nx, ny)
-        await context.bot.send_message(
-            chat_id=chat_id,
-            text=f"Your location is set to {nx, ny}."
-        )
+        nx_str, ny_str = weather_location.split(' ')
+        try:
+            if len(nx_str) > 3 or len(ny_str) > 3:
+                raise ValueError
+            nx, ny = int(nx_str), int(ny_str)
+            database.set_weather_location(chat_id, nx, ny)
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text=f"Your location is set to {nx, ny}."
+            )
+        except ValueError:
+            await context.bot.send_message(
+                chat_id=chat_id,
+                text="Please enter a valid location.\n"
+                     "e.g.) /setloc 12 345"
+            )
 
 
 async def process_weather(chat_id, context: ContextTypes.DEFAULT_TYPE):
