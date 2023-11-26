@@ -44,28 +44,31 @@ async def process_boj(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
     data = crawling.solved_crawling(handle)
     is_today_solved = False
     today_solved = 0
+    today = datetime.datetime.now()
+    today_date = today.strftime("%Y-%m-%d")
     for i in range(len(data)):
-        if data[i]['date'] == datetime.datetime.now().strftime("%Y-%m-%d"):
+        if data[i]['date'] == today.strftime("%Y-%m-%d") or (data[i]['date'] == (today - datetime.timedelta(days=1)).strftime("%Y-%m-%d") and today.hour < 6):
             is_today_solved = True
             today_solved = data[i]['value']
+            today_date = data[i]['date']
 
     if is_today_solved:
         if today_solved == 1:
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"You already solved {today_solved} problem today.\n"
+                text=f"You already solved {today_solved} problem {today_date}.\n"
                      f"https://solved.ac/profile/{handle}"
             )
         else:
             await context.bot.send_message(
                 chat_id=chat_id,
-                text=f"You already solved {today_solved} problems today.\n"
+                text=f"You already solved {today_solved} problems {today_date}.\n"
                      f"https://solved.ac/profile/{handle}"
             )
     else:
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"Not solved any problems today.\n"
+            text=f"Not solved any problems {today_date}.\n"
                  f"https://solved.ac/"
         )
 
