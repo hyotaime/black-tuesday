@@ -19,6 +19,11 @@ This is a bot project that provides various convenience functions using
 
 Initially, it was developed for the purpose of a stock alert bot, so it was named Black Tuesday, 
 which refers to the last day of the 1929 Wall Street crash.
+
+In the vast landscape of the internet, individuals often find themselves overwhelmed by the task of seeking essential information. 
+Traditional methods involve visiting multiple websites to gather the required data. 
+The "black-T.U.E.S.D.A.Y" project emerges as a solution to this challenge, offering a centralized platform that provides a myriad of information and convenience through various commands.
+
 ___
 ## Release
 You can use the latest version of the bot in the Releases on the right.
@@ -55,7 +60,6 @@ ___
 ## About Files
 * [`main.py`](src/main.py) - Main file of the bot
 * [`log.py`](src/log.py) - Logging module
-* [`scheduler.py`](src/scheduler.py) - Scheduler module
 * [`database.py`](src/database.py) - Manage database
 * [`crawling.py`](src/crawling.py) - Crawling module
 * [`commands`](src/commands) directory
