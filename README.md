@@ -33,7 +33,7 @@ The current latest version is **[v1.0.0](https://github.com/hyotaime/black-tuesd
 ___
 ## Commands
 * `/start` - Start the bot<br><img width="488" alt="start" src="https://github.com/hyotaime/black-tuesday/assets/109580929/72389170-4a70-46f0-a885-4f18619b8716">
-* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/b0251d00-4a96-4894-8167-3279e336699b">
+* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2ad16408-96ed-491f-99eb-58346b53396d">
 * `/alarm` - Show alarm list<br><img width="488" alt="alarm" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1ce3985-c573-4580-8acc-be590c50b0cb"><br><img width="488" alt="alarm_list" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ce630eb4-1699-438f-9594-5528cc5bbccf"><br><img width="488" alt="alarm_gif" src="https://github.com/hyotaime/black-tuesday/assets/109580929/35ae7b6e-3b41-4e71-890b-1ff5ac0127fc">
   * `/alarm [alarm time]` - Set an alarm at the specified time<br><img width="488" alt="alarm_time" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d2b32082-2deb-48b5-bdf1-b21ce916afea">
   * `/alarm [alarm index]` - Remove the alarm at the specified index<br><img width="488" alt="alarm_index" src="https://github.com/hyotaime/black-tuesday/assets/109580929/643f0e20-1baf-461c-8bd5-e55375568941">
@@ -56,6 +56,7 @@ ___
 ___
 ## Bug Report
 If you find a bug, please report it in the Issues with **specific time** and **command** to let me know.
+Or you can use bug report template.
 ___
 ## About Files
 * [`main.py`](src/main.py) - Main file of the bot
