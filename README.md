@@ -26,10 +26,10 @@ The "black-T.U.E.S.D.A.Y" project emerges as a solution to this challenge, offer
 
 ___
 ## Release
-You can use the latest version of the bot in the Releases on the right.
-The current latest version is **[v1.0-beta2](https://github.com/hyotaime/black-tuesday/releases/tag/v1.0-beta2)**.
+You can use the latest version of the bot by adding [@black_tuesday_bot](https://t.me/black_tuesday_bot) to your Telegram.
 
-You can also use the bot by adding [@black_tuesday_bot](https://t.me/black_tuesday_bot) to your Telegram.
+You can also see the latest version of the bot in the Releases on the right.  
+The current latest version is **[v1.0.0](https://github.com/hyotaime/black-tuesday/releases/tag/v1.0.0)**.
 ___
 ## Commands
 * `/start` - Start the bot<br><img width="488" alt="start" src="https://github.com/hyotaime/black-tuesday/assets/109580929/72389170-4a70-46f0-a885-4f18619b8716">
