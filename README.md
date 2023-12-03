@@ -21,7 +21,7 @@ Initially, it was developed for the purpose of a stock alert bot, so it was name
 which refers to the last day of the 1929 Wall Street crash.
 
 In the vast landscape of the internet, individuals often find themselves overwhelmed by the task of seeking essential information. 
-Traditional methods involve visiting multiple websites to gather the required data. 
+Traditional methods involve visiting multiple websites to gather the required data.  
 The "black-T.U.E.S.D.A.Y" project emerges as a solution to this challenge, offering a centralized platform that provides a myriad of information and convenience through various commands.
 
 ___
