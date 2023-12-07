@@ -55,7 +55,7 @@ ___
 * `/boj` - [BOJ](https://www.acmicpc.net/)([Solved.ac](https://solved.ac/)) streak reminder<br><img width="488" alt="boj" src="https://github.com/hyotaime/black-tuesday/assets/109580929/0551919a-ce0b-4e18-b583-25910c969ae1">
 ___
 ## Bug Report
-If you find a bug, please report it in the Issues with **specific time** and **command** to let me know.
+If you find a bug, please report it in the Issues with **specific time** and **command** to let me know.  
 Or you can use bug report template.
 ___
 ## About Files
