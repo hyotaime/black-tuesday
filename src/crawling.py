@@ -375,14 +375,9 @@ def now_crawling(ticker):
     load_dotenv()
     USER_AGENT = os.environ.get('USER_AGENT')
     NOW_URL = os.environ.get('NOW_URL')
-    NOW_MODULE1 = os.environ.get('NOW_MODULE1')
-    NOW_MODULE2 = os.environ.get('NOW_MODULE2')
-    NOW_MODULE3 = os.environ.get('NOW_MODULE3')
-    NOW_MODULE4 = os.environ.get('NOW_MODULE4')
-    NOW_CRUMB = os.environ.get('NOW_CRUMB')
+    PARAMS = os.environ.get('PARAMS')
     NOW_COOKIE = os.environ.get('NOW_COOKIE')
-    params = f"?crumb={NOW_CRUMB}&modules={NOW_MODULE1}%2C{NOW_MODULE2}%2C{NOW_MODULE3}%2C{NOW_MODULE4}&period=1d&ssl=true"
-    url = f"{NOW_URL}{ticker}{params}"
+    url = f"{NOW_URL}{ticker}?{PARAMS}"
     headers = {"User-Agent": USER_AGENT, "Cookie": NOW_COOKIE}
     response = requests.get(url, headers=headers).json()['quoteSummary']['result']
     return response
