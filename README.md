@@ -1,5 +1,6 @@
 # black-T.U.E.S.D.A.Y
 ![Python](https://img.shields.io/badge/python-3.11-3670A0?logo=python&logoColor=white)
+[![CodeFactor](https://www.codefactor.io/repository/github/hyotaime/black-tuesday/badge)](https://www.codefactor.io/repository/github/hyotaime/black-tuesday)  
 ![Python-Telegram-Bot](https://img.shields.io/badge/python--telegram--bot-v20.6-blue)
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
