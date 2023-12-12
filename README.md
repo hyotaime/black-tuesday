@@ -1,14 +1,14 @@
 # black-T.U.E.S.D.A.Y
 ![Python](https://img.shields.io/badge/python-3.11-3670A0?logo=python&logoColor=white)
 ![Python-Telegram-Bot](https://img.shields.io/badge/python--telegram--bot-v20.6-blue)
-[![CodeFactor](https://www.codefactor.io/repository/github/hyotaime/black-tuesday/badge)](https://www.codefactor.io/repository/github/hyotaime/black-tuesday)  
+[![CodeFactor](https://www.codefactor.io/repository/github/hyotaime/black-tuesday/badge)](https://www.codefactor.io/repository/github/hyotaime/black-tuesday)
+![License](https://img.shields.io/badge/license-GPLv3.0-orange)  
 ![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?logo=telegram&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?logo=mariadb)
 ![OpenAI](https://img.shields.io/badge/OpenAI-000000?logo=OpenAI&logoColor=white)
 ![Yahoo!](https://img.shields.io/badge/Yahoo!-6001D2?logo=Yahoo!&logoColor=white)
 ![Solved.ac](https://img.shields.io/badge/Solved.ac-brightgreen)
 ![Korea public data portal](https://img.shields.io/badge/Korea_public_data_portal-blue)
-![License](https://img.shields.io/badge/license-GPLv3.0-orange)
 
 Telegram-bot Ultimately Essential Service Definitively Assist You
 
