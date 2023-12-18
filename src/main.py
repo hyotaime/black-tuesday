@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append('/btbot')
 
 import telegram as tel
@@ -15,6 +16,13 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 bot = tel.Bot(token=BOT_TOKEN)
 
+
+async def schedule(application):
+    await weather.process_weather_notification(application)
+    await alarm.process_alarm_notification(application)
+    await boj.process_boj_notification(application)
+
+
 # 메인 함수
 if __name__ == '__main__':
     log.logger.addHandler(log.stream_handler)
@@ -22,9 +30,7 @@ if __name__ == '__main__':
     database.db_connection_test()
     scheduler = AsyncIOScheduler()
     scheduler.start()
-    scheduler.add_job(weather.process_weather_notification, 'cron', second=0, args=(application, ), id='wscheduler')
-    scheduler.add_job(alarm.process_alarm_notification, 'cron', second=0, args=(application, ), id='ascheduler')
-    scheduler.add_job(boj.process_boj_notification, 'cron', second=0, args=(application, ), id='bscheduler')
+    scheduler.add_job(schedule, 'cron', second=0, args=(application,), id='scheduler')
 
     start_handler = CommandHandler('start', start.start)
     application.add_handler(start_handler)
