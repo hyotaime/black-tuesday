@@ -27,7 +27,7 @@ async def schedule(application):
 if __name__ == '__main__':
     log.logger.addHandler(log.stream_handler)
     application = ApplicationBuilder().token(BOT_TOKEN).build()
-    database.db_connection_test()
+    database.db_test()
     scheduler = AsyncIOScheduler()
     scheduler.start()
     scheduler.add_job(schedule, 'cron', second=0, args=(application,), id='scheduler')
