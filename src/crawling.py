@@ -60,6 +60,32 @@ def search_crawling(search_value):
         return None
 
 
+def epl_crawling():
+    load_dotenv()
+    EPL_URL = os.environ.get('EPL_URL')
+    FB_TOKEN = os.environ.get('FB_TOKEN')
+    headers = {'X-Auth-Token': FB_TOKEN}
+    data = requests.get(EPL_URL, headers=headers).json()['standings'][0]['table']
+    return data
+
+
+def epl_now_crawling():
+    load_dotenv()
+    EPL_NOW_URL = os.environ.get('EPL_NOW_URL')
+    USER_AGENT = os.environ.get('USER_AGENT')
+    data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+    return data
+
+
+def epl_next_crawling():
+    load_dotenv()
+    tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+    EPL_NEXT_URL = os.environ.get('EPL_NOW_URL') + f"&fromDate={tomorrow}&toDate={tomorrow}"
+    USER_AGENT = os.environ.get('USER_AGENT')
+    data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+    return data
+
+
 def kbo_crawling():
     load_dotenv()
     url = os.environ.get('KBO_URL')
@@ -212,9 +238,8 @@ def npb_now_crawling():
                 time = time.replace("見どころ", "").replace("スタメン", "").strip()
             else:
                 time = '-'
-                score = game.find_all("p", class_="bb-scheduleTable__score")[0].get_text().strip().replace(" ",
-                                                                                                           "").replace(
-                    "\n", "")
+                score = (game.find_all("p", class_="bb-scheduleTable__score")[0].get_text().strip().replace(" ", "")
+                         .replace("\n", ""))
             away_score = score.split("-")[1]
             home_score = score.split("-")[0]
             status = game.find_all("p", class_="bb-scheduleTable__status")[0].get_text().strip()
@@ -224,26 +249,28 @@ def npb_now_crawling():
             lose_pitcher = "-"
             save_pitcher = "-"
             if status == "見どころ":
-                home_starter = \
-                game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[
-                    0].get_text().strip()
-                away_starter = \
-                game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[
-                    1].get_text().strip()
+                home_starter = (
+                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[0]
+                    .get_text().strip())
+                away_starter = (
+                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--probable")[1]
+                    .get_text().strip())
             elif status == "スタメン":
-                home_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[
-                    0].get_text().strip()
-                away_starter = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[
-                    1].get_text().strip()
+                home_starter = (
+                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[0]
+                    .get_text().strip())
+                away_starter = (
+                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--start")[1]
+                    .get_text().strip())
             elif status == "試合終了":
-                win_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--win")[
-                    0].get_text().strip()
-                lose_pitcher = game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--lose")[
-                    0].get_text().strip()
+                win_pitcher = (game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--win")[0]
+                               .get_text().strip())
+                lose_pitcher = (game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--lose")[0]
+                                .get_text().strip())
                 try:
-                    save_pitcher = \
-                    game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--save")[
-                        0].get_text().strip()
+                    save_pitcher = (
+                        game.find_all("li", class_="bb-scheduleTable__player bb-scheduleTable__player--save")[0]
+                        .get_text().strip())
                 except IndexError:
                     save_pitcher = "-"
             if status == "見どころ" or status == "スタメン":

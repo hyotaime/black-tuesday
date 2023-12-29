@@ -34,7 +34,7 @@ The current latest version is **[v1.0.0](https://github.com/hyotaime/black-tuesd
 ___
 ## Commands
 * `/start` - Start the bot<br><img width="488" alt="start" src="https://github.com/hyotaime/black-tuesday/assets/109580929/72389170-4a70-46f0-a885-4f18619b8716">
-* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2ad16408-96ed-491f-99eb-58346b53396d">
+* `/help` - Show command list<br><img width="488" alt="help" src="https://github.com/hyotaime/black-tuesday/assets/109580929/b1e3b75a-a803-4e6d-a1fa-ed22f3e72ea6">
 * `/alarm` - Show alarm list<br><img width="488" alt="alarm" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1ce3985-c573-4580-8acc-be590c50b0cb"><br><img width="488" alt="alarm_list" src="https://github.com/hyotaime/black-tuesday/assets/109580929/ce630eb4-1699-438f-9594-5528cc5bbccf"><br><img width="488" alt="alarm_gif" src="https://github.com/hyotaime/black-tuesday/assets/109580929/35ae7b6e-3b41-4e71-890b-1ff5ac0127fc">
   * `/alarm [alarm time]` - Set an alarm at the specified time<br><img width="488" alt="alarm_time" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d2b32082-2deb-48b5-bdf1-b21ce916afea">
   * `/alarm [alarm index]` - Remove the alarm at the specified index<br><img width="488" alt="alarm_index" src="https://github.com/hyotaime/black-tuesday/assets/109580929/643f0e20-1baf-461c-8bd5-e55375568941">
@@ -45,6 +45,9 @@ ___
   * `/weather [weather notification time]` - Set weather notification every day at the specified time<br><img width="488" alt="weather_noti" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1d42904-0841-4995-9c78-9fc200dfd25a">
   * `/weather off` - Turn off weather notification<br><img width="488" alt="weather_off" src="https://github.com/hyotaime/black-tuesday/assets/109580929/76c3377d-3aee-4459-a5b4-23b63a0c2c8e">
 * `/setloc [x-coordinate] [y-coordinate]` - Set location for weather command<br><img width="488" alt="setloc" src="https://github.com/hyotaime/black-tuesday/assets/109580929/fb33ac7b-6835-4924-a31f-faacdf395568">
+* `/pl` - Show Premier League table<br><img width="488" alt="pl" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2b4cc5ab-5810-4185-b8a0-233465650bc8">
+* `/plnow` - Show today's Premier League game schedule<br><img width="488" alt="plnow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d93afade-471f-40b2-a1b8-895c1204dc46">
+* `/plnext` - Show tomorrow's Premier League game schedule<br><img width="488" alt="plnext" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1b7165f-79c9-4421-ad90-758e4295deae">
 * `/kbo` - Show KBO league table<br><img width="488" alt="kbo" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d1688929-443b-4453-b360-e1bbeb4afa44">
 * `/kbonow` - Show today's KBO game schedule<br><img width="488" alt="kbonow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2fe53c01-51de-419d-8e36-54f60d2137de">
 * `/npb` - Show NPB league table<br><img width="488" alt="npb" src="https://github.com/hyotaime/black-tuesday/assets/109580929/59d819d5-22a2-4517-b75b-d1a34c87899e">
@@ -67,6 +70,7 @@ ___
 * [`commands`](src/commands) directory
   * [`alarm.py`](src/commands/alarm.py) - Alarm command module
   * [`boj.py`](src/commands/boj.py) - BOJ command module
+  * [`epl.py`](src/commands/epl.py) - PL command module
   * [`find.py`](src/commands/find.py) - Find command module
   * [`gpt.py`](src/commands/gpt.py) - GPT command module
   * [`help.py`](src/commands/help.py) - Help command module
@@ -89,6 +93,8 @@ ___
 * Unofficial Solved.ac API for `/boj`
   * [Unofficial Solved.ac API](https://solvedac.github.io/unofficial-documentation/#/)
   * [Github - solvedac/unofficial-documentation](https://github.com/solvedac/unofficial-documentation)
+* Premier League Table API for `/pl`
+  * [Football-data.org](https://www.football-data.org/)
 * Ticker Search API for `/find`
   * [yashwanth2804's Ticker Search API](https://github.com/yashwanth2804/TickerSymbol)
 * Yahoo Finance API for `/now`
