@@ -71,19 +71,40 @@ def epl_crawling():
 
 def epl_now_crawling():
     load_dotenv()
+    now = datetime.now()
     EPL_NOW_URL = os.environ.get('EPL_NOW_URL')
     USER_AGENT = os.environ.get('USER_AGENT')
-    data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-    return data
+    if now.strftime("%p") == "AM":
+        before = (now - timedelta(days=1)).strftime("%Y-%m-%d")
+        before_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={before}&toDate={before}"
+        before_data = requests.get(before_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        return before_data, data, now.strftime("%d")
+    else:
+        next = (now + timedelta(days=1)).strftime("%Y-%m-%d")
+        next_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={next}&toDate={next}"
+        next_data = requests.get(next_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        return data, next_data, now.strftime("%d")
 
 
 def epl_next_crawling():
     load_dotenv()
-    tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
-    EPL_NEXT_URL = os.environ.get('EPL_NOW_URL') + f"&fromDate={tomorrow}&toDate={tomorrow}"
+    tomorrow = datetime.now() + timedelta(days=1)
     USER_AGENT = os.environ.get('USER_AGENT')
-    data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-    return data
+    EPL_NEXT_URL = os.environ.get('EPL_NOW_URL') + f"&fromDate={tomorrow}&toDate={tomorrow}"
+    if tomorrow.strftime("%p") == "AM":
+        before = (tomorrow - timedelta(days=1)).strftime("%Y-%m-%d")
+        before_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={before}&toDate={before}"
+        before_data = requests.get(before_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        return before_data, data, tomorrow.strftime("%d")
+    else:
+        next = (tomorrow + timedelta(days=1)).strftime("%Y-%m-%d")
+        next_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={next}&toDate={next}"
+        next_data = requests.get(next_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
+        return data, next_data, tomorrow.strftime("%d")
 
 
 def kbo_crawling():
