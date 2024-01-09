@@ -362,12 +362,15 @@ def weather_crawling(nx, ny):
         # Add few more options
         elif 6 <= i < 12:
             data[i % 6][3] = item['fcstValue']
+            print(item['fcstValue'])
             if item['fcstValue'] == '0':
                 continue
             elif item['fcstValue'] == '1':
                 data[i % 6][3] = '☔비'
             elif item['fcstValue'] == '2':
                 data[i % 6][3] = '🌧비/눈'
+            elif item['fcstValue'] == '3':
+                data[i % 6][3] = '❄️눈'
             elif item['fcstValue'] == '5':
                 data[i % 6][3] = '💦빗방울'
             elif item['fcstValue'] == '6':
