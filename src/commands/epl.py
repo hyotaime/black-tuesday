@@ -37,11 +37,10 @@ async def process_epl(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_epl_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
-    data1, data2, today = crawling.epl_now_crawling()
+    data1, data2 = crawling.epl_now_crawling()
     message = ""
     for match in data1:
-        if match['gameDateTime'].split('T')[0].split('-')[2] != today and int(
-                match['gameDateTime'].split('T')[1].split(':')[0]) >= 12:
+        if int(match['gameDateTime'].split('T')[1].split(':')[0]) >= 12:
             status = match['statusInfo']
             if status == '경기전':
                 home_team = match['homeTeamName']
@@ -65,8 +64,7 @@ async def process_epl_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
                             f"{stadium}\n\n")
 
     for match in data2:
-        if match['gameDateTime'].split('T')[0].split('-')[2] != today and int(
-                match['gameDateTime'].split('T')[1].split(':')[0]) < 12:
+        if int(match['gameDateTime'].split('T')[1].split(':')[0]) < 12:
             status = match['statusInfo']
             if status == '경기전':
                 home_team = match['homeTeamName']
@@ -101,11 +99,10 @@ async def process_epl_now(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def process_epl_next(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
-    data1, data2, tomorrow = crawling.epl_now_crawling()
+    data1, data2 = crawling.epl_next_crawling()
     message = ""
     for match in data1:
-        if match['gameDateTime'].split('T')[0].split('-')[2] != tomorrow and int(
-                match['gameDateTime'].split('T')[1].split(':')[0]) >= 12:
+        if int(match['gameDateTime'].split('T')[1].split(':')[0]) >= 12:
             home_team = match['homeTeamName']
             away_team = match['awayTeamName']
             kick_off_date = match['gameDateTime'].split('T')[0].split('-')[1:]
@@ -117,8 +114,7 @@ async def process_epl_next(chat_id: int, context: ContextTypes.DEFAULT_TYPE):
                         f"{stadium}\n\n")
 
     for match in data2:
-        if match['gameDateTime'].split('T')[0].split('-')[2] != tomorrow and int(
-                match['gameDateTime'].split('T')[1].split(':')[0]) < 12:
+        if int(match['gameDateTime'].split('T')[1].split(':')[0]) < 12:
             home_team = match['homeTeamName']
             away_team = match['awayTeamName']
             kick_off_date = match['gameDateTime'].split('T')[0].split('-')[1:]

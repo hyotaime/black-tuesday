@@ -79,32 +79,32 @@ def epl_now_crawling():
         before_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={before}&toDate={before}"
         before_data = requests.get(before_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
         data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-        return before_data, data, now.strftime("%d")
+        return before_data, data
     else:
         next = (now + timedelta(days=1)).strftime("%Y-%m-%d")
         next_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={next}&toDate={next}"
         next_data = requests.get(next_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
         data = requests.get(EPL_NOW_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-        return data, next_data, now.strftime("%d")
+        return data, next_data
 
 
 def epl_next_crawling():
     load_dotenv()
     tomorrow = datetime.now() + timedelta(days=1)
     USER_AGENT = os.environ.get('USER_AGENT')
-    EPL_NEXT_URL = os.environ.get('EPL_NOW_URL') + f"&fromDate={tomorrow}&toDate={tomorrow}"
+    EPL_NEXT_URL = os.environ.get('EPL_NOW_URL') + f"&fromDate={tomorrow.strftime('%Y-%m-%d')}&toDate={tomorrow.strftime('%Y-%m-%d')}"
     if tomorrow.strftime("%p") == "AM":
         before = (tomorrow - timedelta(days=1)).strftime("%Y-%m-%d")
         before_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={before}&toDate={before}"
         before_data = requests.get(before_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
         data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-        return before_data, data, tomorrow.strftime("%d")
+        return before_data, data
     else:
         next = (tomorrow + timedelta(days=1)).strftime("%Y-%m-%d")
         next_url = os.environ.get('EPL_NOW_URL') + f"&fromDate={next}&toDate={next}"
         next_data = requests.get(next_url, headers={"User-Agent": USER_AGENT}).json()['result']['games']
         data = requests.get(EPL_NEXT_URL, headers={"User-Agent": USER_AGENT}).json()['result']['games']
-        return data, next_data, tomorrow.strftime("%d")
+        return data, next_data
 
 
 def kbo_crawling():
@@ -361,24 +361,22 @@ def weather_crawling(nx, ny):
         # 강수 형태 (PTY)
         # Add few more options
         elif 6 <= i < 12:
-            data[i % 6][3] = item['fcstValue']
-            print(item['fcstValue'])
             if item['fcstValue'] == '0':
-                continue
+                data[i % 6][3] = item['fcstValue']
             elif item['fcstValue'] == '1':
-                data[i % 6][3] = '☔비'
+                data[i % 6][3] = '☔️ 비'
             elif item['fcstValue'] == '2':
-                data[i % 6][3] = '🌧비/눈'
+                data[i % 6][3] = '🌧 비/눈'
             elif item['fcstValue'] == '3':
-                data[i % 6][3] = '❄️눈'
+                data[i % 6][3] = '❄️ 눈'
             elif item['fcstValue'] == '5':
-                data[i % 6][3] = '💦빗방울'
+                data[i % 6][3] = '💦 빗방울'
             elif item['fcstValue'] == '6':
-                data[i % 6][3] = '💦빗방울눈날림'
+                data[i % 6][3] = '💦 빗방울눈날림'
             elif item['fcstValue'] == '7':
-                data[i % 6][3] = '❄️눈날림'
+                data[i % 6][3] = '❄️ 눈날림'
             else:
-                data[i % 6][3] = '⚠️API 에러'
+                data[i % 6][3] = '⚠️ API 에러'
 
 
         # 강수량 (RN1)
