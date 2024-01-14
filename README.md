@@ -46,7 +46,7 @@ ___
   * `/weather off` - Turn off weather notification<br><img width="488" alt="weather_off" src="https://github.com/hyotaime/black-tuesday/assets/109580929/76c3377d-3aee-4459-a5b4-23b63a0c2c8e">
 * `/setloc [x-coordinate] [y-coordinate]` - Set location for weather command<br><img width="488" alt="setloc" src="https://github.com/hyotaime/black-tuesday/assets/109580929/fb33ac7b-6835-4924-a31f-faacdf395568">
 * `/pl` - Show Premier League table<br><img width="488" alt="pl" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2b4cc5ab-5810-4185-b8a0-233465650bc8">
-* `/plnow` - Show today's Premier League game schedule<br><img width="488" alt="plnow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d93afade-471f-40b2-a1b8-895c1204dc46">
+* `/plnow` - Show today's Premier League game schedule<br><img width="488" alt="plnow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/f50a5a00-49de-4868-b68a-a93d1d47b28a">
 * `/plnext` - Show tomorrow's Premier League game schedule<br><img width="488" alt="plnext" src="https://github.com/hyotaime/black-tuesday/assets/109580929/e1b7165f-79c9-4421-ad90-758e4295deae">
 * `/kbo` - Show KBO league table<br><img width="488" alt="kbo" src="https://github.com/hyotaime/black-tuesday/assets/109580929/d1688929-443b-4453-b360-e1bbeb4afa44">
 * `/kbonow` - Show today's KBO game schedule<br><img width="488" alt="kbonow" src="https://github.com/hyotaime/black-tuesday/assets/109580929/2fe53c01-51de-419d-8e36-54f60d2137de">
