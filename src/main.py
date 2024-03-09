@@ -7,7 +7,7 @@ from telegram.ext import CommandHandler, ApplicationBuilder
 import os
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from dotenv import load_dotenv
-from commands import start, help, find, now, gpt, alarm, search, epl, kbo, weather, npb, boj
+from commands import start, help, find, now, gpt, alarm, search, epl, cl, kbo, weather, npb, boj
 from src import database, log
 
 # 토큰 읽기
@@ -65,6 +65,9 @@ if __name__ == '__main__':
     application.add_handler(eplnow_handler)
     eplnext_handler = CommandHandler('plnext', epl.eplnext)
     application.add_handler(eplnext_handler)
+
+    cl_handler = CommandHandler('cl', cl.cl)
+    application.add_handler(cl_handler)
 
     kbo_handler = CommandHandler('kbo', kbo.kbo)
     application.add_handler(kbo_handler)
